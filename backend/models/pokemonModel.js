@@ -44,7 +44,7 @@ const getAllPokemon = async () => {
                 'name', r.name
             ) AS region
         FROM pokemon p
-        LEFT JOIN region r ON p.region_id = r.id`
+        LEFT JOIN region r ON p.region_id = r.id ORDER BY id`
     )
     return result.rows
 }

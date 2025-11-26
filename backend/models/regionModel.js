@@ -13,7 +13,7 @@ const createRegion = async (data) => {
 
 const getAllRegion = async () => {
     const result = await pool.query(
-        `SELECT * FROM region`
+        `SELECT * FROM region ORDER BY id`
     )
 
     return result.rows
@@ -21,12 +21,29 @@ const getAllRegion = async () => {
 
 const getRegionById = async (id) => {
     const result = await pool.query(
-        `SELECT * FROM region WHERE id = $id`,
+        `SELECT * FROM region WHERE id = $1`,
         [id]
     )
 
     return result.rows[0]
 }
 
+const deleteRegion = async (id) => {
+    const result = await pool.query(
+        `DELETE FROM region WHERE id = $1 RETURNING *`,
+        [id]
+    )
 
-module.exports = {createRegion, getAllRegion, getRegionById}
+    return result.rows[0]
+}
+
+const updateRegion = async (id, name) => {
+    const result = await pool.query(
+        `UPDATE region SET name = $1 WHERE id = $2 RETURNING *`,
+        [name, id]
+    )
+
+    return result.rows[0]
+}
+
+module.exports = {createRegion, getAllRegion, getRegionById, deleteRegion, updateRegion}

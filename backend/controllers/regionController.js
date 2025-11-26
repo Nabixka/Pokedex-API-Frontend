@@ -9,7 +9,7 @@ exports.createRegion = async (req, res) => {
         })
     }
     catch (err){
-        res.status(500).message({ error: err.message })
+        res.status(500).json({ error: err.message })
     }
 }
 
@@ -22,7 +22,7 @@ exports.getAllRegion = async (req, res) => {
         })
     }
     catch(err){
-        res.status(500).message({error: err.message})
+        res.status(500).json({error: err.message})
     }
 }
 
@@ -30,7 +30,7 @@ exports.getRegionById = async (req, res) => {
     try{
         const list = await region.getRegionById(req.params.id)
         if(!list){
-            res.status(404).message({message: "Tidak Dapat Menemukan Data"})
+            return res.status(404).json({message: "Tidak Dapat Menemukan Data"})
         }
         res.json({
             message: "Berhasil Mengambil Data Region",
@@ -39,5 +39,37 @@ exports.getRegionById = async (req, res) => {
     }
     catch(err){
         res.status(500).message({error: err.message})
+    }
+}
+
+exports.deleteRegion = async (req, res) => {
+    try{
+    const list = await region.deleteRegion(req.params.id)
+    if(!list){
+        return res.status(404).json({ message: "Tidak Ada Region"})
+    }
+    res.json({
+        message: "Berhasil Menghapus Region",
+    })
+    }
+    catch (err){
+        res.status(500).json({error: err.message})
+    }
+}
+
+exports.updateRegion = async (req, res) => {
+    try{
+        const {name} = req.body
+        const list = await region.updateRegion(req.params.id, name)
+        if(!list){
+            return res.status(404).json({message: "Tidak Dapat Menemukan Region"})
+        }
+        res.json({
+            message: "Berhasil Mengubah Region",
+            data: list
+        })
+    }
+    catch (err){
+        res.status(500).json({error: err.message})
     }
 }

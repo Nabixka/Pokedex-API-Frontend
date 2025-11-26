@@ -30,7 +30,7 @@ exports.getPokemonById = async (req, res) => {
     try{
         const list = await pokemon.getPokemonById(req.params.id)
         if (!list){
-            res.status(404).json({ message: "Pokemon Tidak ada"})
+            return res.status(404).json({ message: "Pokemon Tidak ada"})
         }
         res.json({
             message: "Berhasil Mengambil Data Pokemon",
@@ -63,9 +63,7 @@ exports.updatePokemon = async (req, res) => {
 
         const list = await pokemon.updatePokemon(req.params.id, name, description, weight, height, region_id)
         if(!list){
-            res.json({
-                message: "Tidak Ada Pokemon"
-            })
+            return res.status(404).json({message: "Tidak Ada Pokemon"})
         }
         res.json({
             message: "Berhasil Update Pokemon",
