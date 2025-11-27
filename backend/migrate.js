@@ -80,6 +80,25 @@ const createTables = async () => {
             )
         `);
 
+        await pool.query(`
+          DO $$
+          BEGIN
+            IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'category') THEN
+              CREATE TYPE category AS ENUM ('berry', 'potion', 'TM', 'HM', 'battle');
+            END IF;
+          END
+          $$;
+        `);
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS items(
+            id SERIAL PRIMARY KEY,
+            name VARCHAR (100) NOT NULL,
+            description text,
+            category category NOT NULL
+            )
+            `)
+
         console.log("Berhasil membuat table")
     }
     catch (err){
