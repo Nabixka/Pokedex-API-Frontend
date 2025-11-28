@@ -99,6 +99,18 @@ const createTables = async () => {
             )
             `)
 
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS evolution(
+            id SERIAL PRIMARY KEY,
+            stage1 INT NOT NULL,
+            stage2 INT,
+            stage3 INT,
+
+            FOREIGN KEY (stage1) REFERENCES pokemon(id),
+            FOREIGN KEY (stage2) REFERENCES pokemon(id),
+            FOREIGN KEY (stage3) REFERENCES pokemon(id)
+            )`)
+
         console.log("Berhasil membuat table")
     }
     catch (err){
