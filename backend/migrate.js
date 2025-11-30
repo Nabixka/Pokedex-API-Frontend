@@ -20,7 +20,7 @@ const createTables = async () => {
             CREATE TABLE IF NOT EXISTS ability (
             id SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
-            description TEXT 
+            description TEXT  NOT NULL
             )
         `);
 
@@ -28,9 +28,9 @@ const createTables = async () => {
             CREATE TABLE IF NOT EXISTS move (
             id SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
-            description TEXT,
-            power INTEGER, 
-            accuracy INTEGER 
+            description TEXT NOT NULL,
+            power INTEGER NOT NULL, 
+            accuracy INTEGER NOT NULL 
             )
         `);
 
@@ -38,10 +38,10 @@ const createTables = async () => {
             CREATE TABLE IF NOT EXISTS pokemon (
             id SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
-            description TEXT,
-            height INT,
-            weight INT,
-            region_id INT,
+            description TEXT NOT NULL,
+            height INT NOT NULL,
+            weight INT NOT NULL,
+            region_id INT NOT NULL,
 
             FOREIGN KEY (region_id) REFERENCES region(id)
             )
@@ -50,8 +50,8 @@ const createTables = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS pokemon_type (
             id SERIAL PRIMARY KEY,
-            pokemon_id INTEGER,
-            type_id INTEGER,
+            pokemon_id INTEGER NOT NULL,
+            type_id INTEGER NOT NULL,
             
             FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
             FOREIGN KEY (type_id) REFERENCES type(id)
@@ -61,8 +61,8 @@ const createTables = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS pokemon_ability (
             id SERIAL PRIMARY KEY,
-            pokemon_id INTEGER,
-            ability_id INTEGER,
+            pokemon_id INTEGER NOT NULL,
+            ability_id INTEGER NOT NULL,
             
             FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
             FOREIGN KEY (ability_id) REFERENCES ability(id)
@@ -71,9 +71,9 @@ const createTables = async () => {
 
         await pool.query(`
             CREATE TABLE IF NOT EXISTS pokemon_move (
-            id SERIAL PRIMARY KEY,
-            pokemon_id INTEGER,
-            move_id INTEGER,
+            id SERIAL PRIMARY KEY NOT NULL,
+            pokemon_id INTEGER NOT NULL,
+            move_id INTEGER NOT NULL,
             
             FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
             FOREIGN KEY (move_id) REFERENCES move(id)
@@ -94,7 +94,7 @@ const createTables = async () => {
             CREATE TABLE IF NOT EXISTS items(
             id SERIAL PRIMARY KEY,
             name VARCHAR (100) NOT NULL,
-            description text,
+            description text NOT NULL,
             category category NOT NULL
             )
             `)
@@ -103,7 +103,7 @@ const createTables = async () => {
             CREATE TABLE IF NOT EXISTS evolution(
             id SERIAL PRIMARY KEY,
             stage1 INT NOT NULL,
-            stage2 INT,
+            stage2 INT ,
             stage3 INT,
 
             FOREIGN KEY (stage1) REFERENCES pokemon(id),

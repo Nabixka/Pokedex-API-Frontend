@@ -124,4 +124,12 @@ const createEvol = async (data) => {
     return result.rows[0]
 }
 
-module.exports = { getAllEvol, getEvolById, createEvol }
+const deleteEvol = async (id) => {
+    const result = await pool.query(`
+        DELETE FROM evolution WHERE id = $1 RETURNING *`,
+    [id])
+
+    return result.rows[0]
+}
+
+module.exports = { getAllEvol, getEvolById, createEvol, deleteEvol }
