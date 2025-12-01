@@ -2,27 +2,42 @@ const pokemon = require("../models/pokemonModel")
 
 exports.createPokemon = async (req, res) => {
     try{
-        const list = await pokemon.createPokemon(req.body)
-        res.json({
+        const {name, description, weight, height, region_id} = req.body
+
+        if(!name || !description || !weight || !height || !region_id){
+            return res.status(400).json({
+                status: 400,
+                message: "Isi Data Pokemon Dengan Lengkap"
+            })
+        }
+
+        const list = await pokemon.createPokemon(name, description, weight, height, region_id)
+        res.status(201).json({
+            status: 201,
             message: "Berhasil Menambah Pokemon",
             data: list
         })
     }
     catch (err){
-        res.status(500).json({ error: err.message})
+        res.status(500).json({ 
+            status: 500,
+            error: err.message})
     }
 }
 
 exports.getAllPokemon = async (req, res) => {
     try{
         const list = await pokemon.getAllPokemon()
-        res.json({
+        res.status(200).json({
+            status: 200,
             message: "Berhasil Mengambil Data Pokemon",
             data: list
         })
     }
     catch(err){
-        res.status(500).json({ error: err.message})
+        res.status(500).json({ 
+            status: 500,
+            error: err.message})
     }
 }
 
@@ -30,15 +45,20 @@ exports.getPokemonById = async (req, res) => {
     try{
         const list = await pokemon.getPokemonById(req.params.id)
         if (!list){
-            return res.status(404).json({ message: "Pokemon Tidak ada"})
+            return res.status(404).json({ 
+                status: 404,
+                message: "Pokemon Tidak ada"})
         }
-        res.json({
+        res.status(200).json({
+            status: 200,
             message: "Berhasil Mengambil Data Pokemon",
             data: list
         })
     }
     catch(err){
-        res.status(500).json({error: err.message})
+        res.status(500).json({
+            status: 500,
+            error: err.message})
     }
 }
 
@@ -46,31 +66,45 @@ exports.deletePokemon = async (req, res) => {
     try{
         const list = await pokemon.deletePokemon(req.params.id)
         if(!list){
-            return res.status(404).json({ message: "Pokemon Tidak Ada"})
+            return res.status(404).json({ 
+                status: 404,
+                message: "Pokemon Tidak Ada"})
         }
-        res.json({
+        res.status(200).json({
+            status: 200,
             message: "Berhasil Menghapus Pokemon"
         })
     }
     catch(err){
-        res.status(500).json({error: err.message})
+        res.status(500).json({
+            status: 500,
+            error: err.message})
     }
 }
 
 exports.updatePokemon = async (req, res) => {
     try{
         const {name, description, weight, height, region_id} = req.body
+        const {id} = req.params
 
-        const list = await pokemon.updatePokemon(req.params.id, name, description, weight, height, region_id)
-        if(!list){
-            return res.status(404).json({message: "Tidak Ada Pokemon"})
+        const exist = await pokemon.getPokemonById(id)
+        if(!exist){
+            return res.status(404).json({
+                status: 404,
+                message: "Pokemon TIdak Ada"
+            })
         }
-        res.json({
+        
+        const list = await pokemon.updatePokemon(id, req.body)
+        res.status(200).json({
+            status: 200,
             message: "Berhasil Update Pokemon",
             data: list
         })
     }
     catch(err){
-        res.status(500).json({ error: err.message})
+        res.status(500).json({ 
+            status: 500,
+            error: err.message})
     }
 }

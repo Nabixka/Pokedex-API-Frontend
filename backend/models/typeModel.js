@@ -1,4 +1,3 @@
-const { getAllPokemon } = require("../controllers/pokemonController")
 const pool = require("../db")
 
 const getAllType = async () => {
@@ -19,10 +18,16 @@ const getTypeById = async (id) => {
 
 const createType = async (data) => {
     const {name} = data
-    const result = await pool.query(`
+    const insert = await pool.query(`
         INSERT INTO type (name) VALUES ($1) RETURNING *`,
         [name]
     )
+
+    const isi = insert.rows[0].id
+
+    const result = await pool.query(`
+        SELECT * FROM type WHERE id = $1`,
+    [isi])
 
     return result.rows[0]
 }
@@ -36,8 +41,14 @@ const deleteType = async (id) => {
 }
 
 const updateType = async (id, name) => {
-    const result = await pool.query(`UPDATE type SET name = $1 WHERE id = $2 RETURNING *`,
+    const update = await pool.query(`UPDATE type SET name = $1 WHERE id = $2 RETURNING *`,
     [name, id])
+
+    const isi = update.rows[0].id
+
+    const result = await pool.query(`SELECT * FROM type WHERE id = $1`,
+        [isi]
+    )
 
     return result.rows[0]
 }

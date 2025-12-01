@@ -13,7 +13,9 @@ exports.getAllAbility = async (req, res) => {
     catch(err){
         res.status(500).json({
             status: 500,
-            message: "TIdak Dapat Terhubung Ke Server"})
+            error: err.message
+            //message: "TIdak Dapat Terhubung Ke Server"
+        })
     }
 }
 
@@ -36,7 +38,9 @@ exports.getAbilityById = async (req, res) => {
     catch(err){
             res.status(500).json({
                 status: 500,
-                message: "Tidak Dapat Terhubung Ke Server"})
+                error: err.message
+                //message: "Tidak Dapat Terhubung Ke Server"
+        })
     }
 }
 
@@ -62,7 +66,9 @@ exports.createAbility = async(req, res) => {
     catch(err){
         res.status(500).json({
             status: 500,
-            message: "Tidak Dapat Terhubung Ke Server"})
+            error: err.message
+            //message: "Tidak Dapat Terhubung Ke Server"
+        })
     }
 }
 
@@ -87,7 +93,9 @@ exports.updateAbility = async (req, res) => {
     catch(err){
         res.status(500).json({
             status: 500,
-            message: "Tidak Dapat Terhubung Ke Server"})
+            error: err.message
+            //message: "Tidak Dapat Terhubung Ke Server"
+        })
     }
 }
 
@@ -108,6 +116,8 @@ exports.deleteAbility = async (req, res) => {
     catch(err){
         res.status(500).json({
             status: 500,
-            message: "Tidak Dapat Terhubung Ke Server"})
+            error: err.message
+            //message: "Tidak Dapat Terhubung Ke Server"
+            })
     }
 }
