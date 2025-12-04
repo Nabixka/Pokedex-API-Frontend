@@ -42,6 +42,8 @@ const createTables = async () => {
             height INT NOT NULL,
             weight INT NOT NULL,
             region_id INT NOT NULL,
+            image TEXT NOT NULL,
+            pokedex_id INT NOT NULL,
 
             FOREIGN KEY (region_id) REFERENCES region(id)
             )

@@ -4,14 +4,21 @@ exports.createPokemon = async (req, res) => {
     try{
         const {name, description, weight, height, region_id} = req.body
 
-        if(!name || !description || !weight || !height || !region_id){
+        const imageUrl = req.file
+            ? `http://localhost:3000/uploads/${req.file.filename}`
+            : null;
+
+        if(!name || !description || !weight || !height || !region_id || !imageUrl){
             return res.status(400).json({
                 status: 400,
                 message: "Isi Data Pokemon Dengan Lengkap"
             })
         }
 
-        const list = await pokemon.createPokemon(name, description, weight, height, region_id)
+        const list = await pokemon.createPokemon({
+            name, description, weight, height, region_id, image: imageUrl
+        })
+
         res.status(201).json({
             status: 201,
             message: "Berhasil Menambah Pokemon",
@@ -87,6 +94,10 @@ exports.updatePokemon = async (req, res) => {
         const {name, description, weight, height, region_id} = req.body
         const {id} = req.params
 
+        const imageUrl = req.file
+            ? `http://localhost:3000/uploads/${req.file.filename}`
+            : null
+
         const exist = await pokemon.getPokemonById(id)
         if(!exist){
             return res.status(404).json({
@@ -95,7 +106,7 @@ exports.updatePokemon = async (req, res) => {
             })
         }
         
-        const list = await pokemon.updatePokemon(id, req.body)
+        const list = await pokemon.updatePokemon(id, {name, description, weight, height, region_id, image: imageUrl})
         res.status(200).json({
             status: 200,
             message: "Berhasil Update Pokemon",
