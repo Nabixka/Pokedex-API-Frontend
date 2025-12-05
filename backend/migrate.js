@@ -44,32 +44,16 @@ const createTables = async () => {
             region_id INT NOT NULL,
             image TEXT NOT NULL,
             pokedex_id INT NOT NULL,
+            type1 INT NOT NULL,
+            type2 INT,
 
-            FOREIGN KEY (region_id) REFERENCES region(id)
+            FOREIGN KEY (region_id) REFERENCES region(id),
+            FOREIGN KEY (type1) REFERENCES type(id),
+            FOREIGN KEY (type2) REFERENCES type(id)
             )
         `);
 
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS pokemon_type (
-            id SERIAL PRIMARY KEY,
-            pokemon_id INTEGER NOT NULL,
-            type_id INTEGER NOT NULL,
-            
-            FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
-            FOREIGN KEY (type_id) REFERENCES type(id)
-            )
-        `);
 
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS pokemon_ability (
-            id SERIAL PRIMARY KEY,
-            pokemon_id INTEGER NOT NULL,
-            ability_id INTEGER NOT NULL,
-            
-            FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
-            FOREIGN KEY (ability_id) REFERENCES ability(id)
-            )
-        `);
 
         await pool.query(`
             CREATE TABLE IF NOT EXISTS pokemon_move (
@@ -111,6 +95,21 @@ const createTables = async () => {
             FOREIGN KEY (stage1) REFERENCES pokemon(id),
             FOREIGN KEY (stage2) REFERENCES pokemon(id),
             FOREIGN KEY (stage3) REFERENCES pokemon(id)
+            )`)
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS gen(
+            id SERIAL PRIMARY KEY,
+            no INT UNIQUE)`)
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS games(
+            id SERIAL PRIMARY KEY,
+            name VARCHAR,
+            image TEXT,
+            gen_id INT,
+            
+            FOREIGN KEY (gen_id) REFERENCES gen(id)
             )`)
 
         console.log("Berhasil membuat table")

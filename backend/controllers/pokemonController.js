@@ -2,13 +2,15 @@ const pokemon = require("../models/pokemonModel")
 
 exports.createPokemon = async (req, res) => {
     try{
-        const {name, description, weight, height, region_id} = req.body
+        const {name, description, weight, height, region_id, pokedex_id, type1, type2} = req.body
+
+        const type2value = type2 || null
 
         const imageUrl = req.file
             ? `http://localhost:3000/uploads/${req.file.filename}`
             : null;
 
-        if(!name || !description || !weight || !height || !region_id || !imageUrl){
+        if(!name || !description || !weight || !height || !region_id || !imageUrl || !pokedex_id || !type1 ){
             return res.status(400).json({
                 status: 400,
                 message: "Isi Data Pokemon Dengan Lengkap"
@@ -16,7 +18,7 @@ exports.createPokemon = async (req, res) => {
         }
 
         const list = await pokemon.createPokemon({
-            name, description, weight, height, region_id, image: imageUrl
+            name, description, weight, height, region_id, image: imageUrl, pokedex_id, type1, type2: type2value
         })
 
         res.status(201).json({
@@ -91,8 +93,10 @@ exports.deletePokemon = async (req, res) => {
 
 exports.updatePokemon = async (req, res) => {
     try{
-        const {name, description, weight, height, region_id} = req.body
+        const {name, description, weight, height, region_id, pokedex_id, type1, type2} = req.body
         const {id} = req.params
+
+        const type2value = type2 || null
 
         const imageUrl = req.file
             ? `http://localhost:3000/uploads/${req.file.filename}`
@@ -106,7 +110,7 @@ exports.updatePokemon = async (req, res) => {
             })
         }
         
-        const list = await pokemon.updatePokemon(id, {name, description, weight, height, region_id, image: imageUrl})
+        const list = await pokemon.updatePokemon(id, {name, description, weight, height, region_id, image: imageUrl, pokedex_id, type1, type2: type2value})
         res.status(200).json({
             status: 200,
             message: "Berhasil Update Pokemon",
