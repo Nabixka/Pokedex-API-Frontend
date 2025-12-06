@@ -103,7 +103,7 @@ exports.updateItem = async (req, res) => {
             })
         }
         
-            const list = await item.updateItem(id, req.body)
+            const list = await item.updateItem(id, {name, description, category})
             res.status(200).json({
                 status: 200,
                 message: "Berhasil Mengupdate Data",

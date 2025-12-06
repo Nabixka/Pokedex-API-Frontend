@@ -96,12 +96,17 @@ export function Component() {
                 </div>
             </div>
 
+            {filteredPokedex.length === 0 ? (
+                <div className="w-full flex justify-center pr-20 pl-20">
+                    <span className="text-gray-500 font-bold text-lg border-t border-b border-gray-300 text-center w-full">Pokemon Tidak Ada</span>
+                </div>
+            ) : (
             <div className="grid md:grid-cols-3 lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 gap-5 text-center flex pb-10">
             {filteredPokedex.map((ex) => (
                 <div className="bg-white rounded-md bg-[url('/src/assets/bg.jpg')] w-50 h-full flex flex-col justify-center items-center">
                     <span className="font-bold pt-2">{ex.name}</span>
-                    <img src={ex.image} className="w-40 h-40"></img>
-                    <div className="flex gap-3">
+                    <img src={ex.image} className="w-40 h-40 pt-5"></img>
+                    <div className="flex gap-3 pt-5">
                         <span className={`${typeColor(ex.type1.name)}`}>{ex.type1.name}</span>
                         {ex.type2?.name && (
                         <span className={`${typeColor(ex.type2.name)}`}>{ex.type2.name}</span>
@@ -111,6 +116,7 @@ export function Component() {
                 </div>
             ))}
             </div>
+            )}
         </div>
     )
 }

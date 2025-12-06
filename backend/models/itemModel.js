@@ -45,8 +45,8 @@ const updateItem = async (id, data) => {
     const { name, description, category} = data
 
     const update = await pool.query(`
-        UPDATE items SET name = $1, description = $2, category = $3 RETURNING *`,
-    [name, description, category])
+        UPDATE items SET name = $1, description = $2, category = $3 WHERE id = $4 RETURNING *`,
+    [name, description, category, id])
 
     const isi = update.rows[0].id
 

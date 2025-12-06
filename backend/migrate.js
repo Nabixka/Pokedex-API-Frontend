@@ -80,8 +80,8 @@ const createTables = async () => {
             CREATE TABLE IF NOT EXISTS items(
             id SERIAL PRIMARY KEY,
             name VARCHAR (100) NOT NULL,
-            description text NOT NULL,
-            category category NOT NULL
+            description text,
+            category category
             )
             `)
 

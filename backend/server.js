@@ -8,6 +8,8 @@ const typeRoutes = require("./routes/typeRoutes")
 const abilityRoutes = require("./routes/abilityRoutes")
 const itemRoutes = require("./routes/itemRoutes")
 const evolRoutes = require("./routes/evolRoutes")
+const genRoutes = require("./routes/genRoutes")
+
 
 app.use(express.json());
 app.use(cors())
@@ -18,6 +20,7 @@ app.use("/type", typeRoutes)
 app.use("/ability", abilityRoutes)
 app.use("/items", itemRoutes)
 app.use("/evolution", evolRoutes)
+app.use("/gen", genRoutes)
 
 
 app.listen(port, () => {
