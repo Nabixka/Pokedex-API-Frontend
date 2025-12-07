@@ -43,7 +43,9 @@ export function Component() {
             psychic: "bg-linear-to-b from-pink-500 to-pink-700 text-white font-semibold rounded px-5 py-1",
             fairy: "bg-linear-to-b from-pink-300 to-pink-600 text-white font-semibold rounded px-5 py-1",
             steel: "bg-linear-to-b from-slate-300 to-slate-600 text-white font-semibold rounded px-5 py-1",
-            normal: "bg-linear-to-b from-stone-300 to-stone-400 text-white font-semibold rounded px-5 py-1"
+            normal: "bg-linear-to-b from-stone-300 to-stone-400 text-white font-semibold rounded px-5 py-1",
+            dragon: "bg-linear-to-b from-blue-800 to-yellow-600 text-white font-semibold rounded px-5 py-1",
+            bug: "bg-linear-to-b from-lime-300 to-lime-500 text-white font-semibold rounded px-6 py-1"
         }
 
         return colors[t]

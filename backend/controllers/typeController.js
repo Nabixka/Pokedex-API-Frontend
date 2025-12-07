@@ -1,5 +1,14 @@
 const type = require("../models/typeModel")
 
+function toPascalCase(str) {
+    return str
+        .toLowerCase()
+        .split(/[\s\-_]+/)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join('');
+}
+
+
 exports.getAllType = async (req, res) => {
     try{
         const list = await type.getAllType()
@@ -40,7 +49,13 @@ exports.getTypeById = async (req, res) => {
 
 exports.createType = async (req, res) => {
     try{
-        const list = await type.createType(req.body)
+        let {name} = req.body
+
+        name = toPascalCase(name)
+        
+        const newName = { name }
+
+        const list = await type.createType(newName)
 
         res.status(201).json({
             status: 201,
@@ -78,7 +93,11 @@ exports.deleteType = async (req, res) => {
 exports.updateType = async (req, res) => {
     try{
         const {id} = req.params
-        const {name} = req.body
+        let {name} = req.body
+
+        name = toPascalCase(name)
+
+        const newName = { name }
 
         const exist = await type.getTypeById(id)
         if(!exist){
@@ -87,7 +106,7 @@ exports.updateType = async (req, res) => {
                 message: "Type Tidak Ada"})
         }
 
-        const list = await type.updateType(id, name)
+        const list = await type.updateType(id, newName)
         res.status(200).json({
             status: 200,
             message: "Berhasil Mengubah Type",

@@ -29,6 +29,13 @@ exports.createGen = async (req, res) => {
             })
         }
 
+        if(!/^\d+$/.test(no)){
+            return res.status(400).json({
+                status: 400,
+                message: "Isi yang Benar"
+            })
+        }
+
         const exist = await gen.getGenByNo(no)
         if(exist){
             return res.status(409).json({
@@ -37,7 +44,11 @@ exports.createGen = async (req, res) => {
             })
         }
 
-        const list = await gen.createGen(req.body)
+        const data ={
+            no : parseInt(no, 10)
+        }
+
+        const list = await gen.createGen(data)
 
         res.status(201).json({
             status: 201,
@@ -114,8 +125,22 @@ exports.deleteGen = async (req, res) => {
 
 exports.updateGen = async (req, res) => {
     try{
-        const {no} = req.body
+        let {no} = req.body
         const {id} = req.params
+
+        if(!no){
+            return res.status(400).json({
+                status: 400,
+                message: "Isi Dengan Benar"
+            })
+        }
+
+        if(!/^\d+$/.test(no)){
+            return res.status(400).json({
+                status: 400,
+                message: "Isi yang Benar"
+            })
+        }
 
         const exist = await gen.getGenById(id)
 
@@ -123,13 +148,6 @@ exports.updateGen = async (req, res) => {
             return res.status(404).json({
                 status: 404,
                 message: "Data Generasi Tidak Ada"
-            })
-        }
-
-        if(!no){
-            return res.status(400).json({
-                status: 400,
-                message: "Isi Dengan Benar"
             })
         }
 
@@ -142,8 +160,12 @@ exports.updateGen = async (req, res) => {
             })
         }
 
+        number = {
+            no: parseInt(no, 10)
+        }
 
-        const list = await gen.updateGen(no, id)
+
+        const list = await gen.updateGen(number.no, id)
 
         res.status(200).json({
             status: 200,

@@ -5,21 +5,28 @@ const createTables = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS region (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL
+            name VARCHAR(100) UNIQUE NOT NULL 
             )
         `);
 
         await pool.query(`
             CREATE TABLE IF NOT EXISTS type (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL
+            name VARCHAR(100) UNIQUE NOT NULL
             )
         `);
 
         await pool.query(`
+            CREATE TABLE IF NOT EXISTS gen(
+            id SERIAL PRIMARY KEY,
+            no INT UNIQUE
+            )
+        `)
+
+        await pool.query(`
             CREATE TABLE IF NOT EXISTS ability (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
+            name VARCHAR(100) UNIQUE NOT NULL,
             description TEXT  NOT NULL
             )
         `);
@@ -29,8 +36,11 @@ const createTables = async () => {
             id SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
             description TEXT NOT NULL,
-            power INTEGER NOT NULL, 
-            accuracy INTEGER NOT NULL 
+            power INTEGER, 
+            accuracy INTEGER,
+            move_type INTEGER,
+
+            FOREIGN KEY (move_type) REFERENCES type(id)
             )
         `);
 
@@ -46,10 +56,23 @@ const createTables = async () => {
             pokedex_id INT NOT NULL,
             type1 INT NOT NULL,
             type2 INT,
+            generation INT,
 
+            FOREIGN KEY (generation) REFERENCES gen(id),
             FOREIGN KEY (region_id) REFERENCES region(id),
             FOREIGN KEY (type1) REFERENCES type(id),
             FOREIGN KEY (type2) REFERENCES type(id)
+            )
+        `);
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS pokemon_weakness(
+            id SERIAL PRIMARY KEY,
+            pokemon_id INTEGER NOT NULL,
+            pokemon_weakness INTEGER NOT NULL,
+            
+            FOREIGN KEY (pokemon_id) REFERENCES pokemon(id),
+            FOREIGN KEY (pokemon_weakness) REFERENCES type(id)
             )
         `);
 
@@ -57,7 +80,7 @@ const createTables = async () => {
 
         await pool.query(`
             CREATE TABLE IF NOT EXISTS pokemon_move (
-            id SERIAL PRIMARY KEY NOT NULL,
+            id SERIAL PRIMARY KEY,
             pokemon_id INTEGER NOT NULL,
             move_id INTEGER NOT NULL,
             
@@ -70,7 +93,7 @@ const createTables = async () => {
           DO $$
           BEGIN
             IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'category') THEN
-              CREATE TYPE category AS ENUM ('berry', 'potion', 'TM', 'HM', 'battle');
+              CREATE TYPE category AS ENUM ('Berry', 'Potion', 'TM', 'HM', 'Battle', 'Key');
             END IF;
           END
           $$;
@@ -83,7 +106,7 @@ const createTables = async () => {
             description text,
             category category
             )
-            `)
+        `);
 
         await pool.query(`
             CREATE TABLE IF NOT EXISTS evolution(
@@ -97,10 +120,6 @@ const createTables = async () => {
             FOREIGN KEY (stage3) REFERENCES pokemon(id)
             )`)
 
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS gen(
-            id SERIAL PRIMARY KEY,
-            no INT UNIQUE)`)
 
         await pool.query(`
             CREATE TABLE IF NOT EXISTS games(
@@ -110,7 +129,8 @@ const createTables = async () => {
             gen_id INT,
             
             FOREIGN KEY (gen_id) REFERENCES gen(id)
-            )`)
+            )
+        `);
 
         console.log("Berhasil membuat table")
     }

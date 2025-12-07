@@ -40,7 +40,8 @@ const deleteType = async (id) => {
     return result.rows[0]
 }
 
-const updateType = async (id, name) => {
+const updateType = async (id, data) => {
+    const { name } = data
     const update = await pool.query(`UPDATE type SET name = $1 WHERE id = $2 RETURNING *`,
     [name, id])
 

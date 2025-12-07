@@ -20,15 +20,34 @@ exports.getAllItem = async(req, res) => {
 
 exports.createItem = async(req, res) => {
     try{
-        const {name, description, category} = req.body
-        const list = await item.createItem(req.body)
-
+        let {name, description, category} = req.body
+        const enumMap = {
+            berry: "Berry",
+            potion: "Potion",
+            hm : "HM",
+            tm: "TM",
+            battle: "Battle",
+            key: "Key"
+        }
+        
         if(!name || !description || !category){
             return res.status(400).json({
                 status: 400,
                 message: "Isi Name, Description, Category dengan benar"
             })
         }
+
+        const newCategory = category.toLowerCase()
+        if(!enumMap[newCategory]){
+            return res.status(400).json({
+                status: 400,
+                message: `Tidak Ada Pilihan ${newCategory}`
+            })
+        }
+
+        category = enumMap[category]
+
+        const list = await item.createItem({name, description, category})
         res.status(201).json({
             status: 201,
             message: "Berhasil Menambah Item",
@@ -86,7 +105,15 @@ exports.deleteItem = async (req, res) => {
 exports.updateItem = async (req, res) => {
     try{
         const {id} = req.params
-        const {name, description, category} = req.body
+        let {name, description, category} = req.body
+        const enumMap = {
+            berry: "Berry",
+            potion: "Potion",
+            hm : "HM",
+            tm: "TM",
+            battle: "Battle",
+            key: "Key"
+        }
 
         const exist = await item.getItemById(id)
         if(!exist){
@@ -102,6 +129,17 @@ exports.updateItem = async (req, res) => {
                 message: "Isi Name, Description, Category dengan benar"
             })
         }
+
+        const newCategory = category.toLowerCase()
+        if(!enumMap[newCategory]){
+            return res.status(400).json({
+                status: 400,
+                message: `Tidak Ada Pilihan ${newCategory}`
+            })
+        }
+
+        category = enumMap[newCategory]
+
         
             const list = await item.updateItem(id, {name, description, category})
             res.status(200).json({
