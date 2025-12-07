@@ -6,9 +6,9 @@ const abilitySeeder = require("./seeder/abilitySeeder")
 async function seeder(){
     try{
         console.log("Sedang Menambahkan Data")
-        await typeSeeder()
         await genSeeder()
         await regionSeeder()
+        await typeSeeder()
         await abilitySeeder()
 
         console.log("Seeder Selesai")

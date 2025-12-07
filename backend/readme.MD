@@ -8,13 +8,28 @@
 - cors
 - Multer
 
+## Inisiasi Project Backend
+1. Jalankan ( cd backend )
+2. Jalankan( npm install )
+
+## Migrate
+1. change Name exampleDB.js -> db.js 
+2. Configure db.js database
+3. Jalankan ( node migrate.js)
+
+## Seeder
+1. Jalankan ( node seeder.js)
+
 ## Run Backend
-1. cd backend
-2. change exampleDB.js -> db.js
-3. configure db.js
-4. node migrate.js
-5. node server.js 
+1. Jalankan ( node server.js)
 
-## Reponse API
-
--- Comming Soon --
+## API
+- Pokemon
+- Generation
+- Games
+- Type
+- Region
+- Item
+- Evolution Stage
+- Ability
+- Move

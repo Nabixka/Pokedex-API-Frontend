@@ -3,9 +3,19 @@ const pool = require("./db");
 const createTables = async () => {
     try{
         await pool.query(`
+            CREATE TABLE IF NOT EXISTS gen(
+            id SERIAL PRIMARY KEY,
+            no INT UNIQUE
+            )
+        `)
+
+        await pool.query(`
             CREATE TABLE IF NOT EXISTS region (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(100) UNIQUE NOT NULL 
+            name VARCHAR(100) UNIQUE NOT NULL,
+            gen_id INTEGER,
+
+            FOREIGN KEY (gen_id) REFERENCES gen(id)
             )
         `);
 
@@ -15,13 +25,6 @@ const createTables = async () => {
             name VARCHAR(100) UNIQUE NOT NULL
             )
         `);
-
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS gen(
-            id SERIAL PRIMARY KEY,
-            no INT UNIQUE
-            )
-        `)
 
         await pool.query(`
             CREATE TABLE IF NOT EXISTS ability (
@@ -34,7 +37,7 @@ const createTables = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS move (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
+            name VARCHAR(100) UNIQUE NOT NULL,
             description TEXT NOT NULL,
             power INTEGER, 
             accuracy INTEGER,
@@ -47,7 +50,7 @@ const createTables = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS pokemon (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
+            name VARCHAR(100) UNIQUE NOT NULL,
             description TEXT NOT NULL,
             height INT NOT NULL,
             weight INT NOT NULL,
@@ -102,7 +105,7 @@ const createTables = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS items(
             id SERIAL PRIMARY KEY,
-            name VARCHAR (100) NOT NULL,
+            name VARCHAR (100) UNIQUE NOT NULL,
             description text,
             category category
             )
@@ -124,7 +127,7 @@ const createTables = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS games(
             id SERIAL PRIMARY KEY,
-            name VARCHAR,
+            name VARCHAR UNIQUE,
             image TEXT,
             gen_id INT,
             
