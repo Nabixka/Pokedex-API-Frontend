@@ -1,19 +1,15 @@
 const region = require("../models/regionModel")
 const gen = require("../models/genModel")
+const { toPascalCase } = require("../helper/helper")
 
-function toPascalCase(str) {
-    return str
-        .toLowerCase()
-        .split(/[\s\-_]+/)
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join('');
-}
 
 exports.createRegion = async (req, res) => {
     try {
-        const { name, gen_id } = req.body
+        let { name, gen_id } = req.body
 
-        const list = await region.createRegion(req.body)
+        name = toPascalCase(name)
+
+        const list = await region.createRegion({name, gen_id})
         res.status(201).json({
             status: 201,
             message: "Berhasil Menambah Region",

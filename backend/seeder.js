@@ -2,6 +2,7 @@ const typeSeeder = require("./seeder/typeSeeder")
 const genSeeder = require("./seeder/genSeeder")
 const regionSeeder = require("./seeder/regionSeeder")
 const abilitySeeder = require("./seeder/abilitySeeder")
+const pokemonSeeder = require("./seeder/pokemonSeeder")
 
 async function seeder(){
     try{
@@ -10,6 +11,7 @@ async function seeder(){
         await regionSeeder()
         await typeSeeder()
         await abilitySeeder()
+        await pokemonSeeder()
 
         console.log("Seeder Selesai")
     }
