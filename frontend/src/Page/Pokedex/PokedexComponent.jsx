@@ -8,6 +8,7 @@ export function Component() {
     const [search, setSearch] = useState("")
     const [selectedType, setSelectedType] = useState("") 
     const navigate = useNavigate()
+    const [page, setPage] = useState(1)
 
     useEffect(() => {
         const pokemon = async () => {
@@ -89,6 +90,14 @@ export function Component() {
         return matchName && matchType
     })
 
+    const paginationPokedex = filteredPokedex.filter((ex) => {
+        if(page === 1) return ex.generation.no === 1
+        if(page === 2) return ex.generation.no === 2
+        if(page === 3) return ex.generation.no === 3
+        if(page === 4) return ex.generation.no === 4 
+    })
+
+    const formatPokedexId = (id) => "#" + id.toString().padStart(4, "0")
 
     return (
         <div className="h-screen flex align-center items-center flex-col gap-20">
@@ -103,15 +112,21 @@ export function Component() {
                         <button onClick={() => setSelectedType(ex.name)} className={`${typeColor(ex.name)} text-center py-1`}>{ex.name}</button>
                     )}
                 </div>
+                <div className="flex justify-center pt-5">
+                    <button onClick={() => setPage(1)} className="w-full bg-gray-200 border-r border-l border-gray-400 text-gray-700 text-lg">1</button>
+                    <button onClick={() => setPage(2)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">2</button>
+                    <button onClick={() => setPage(3)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">3</button>
+                    <button onClick={() => setPage(4)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">4</button>
+                </div>
             </div>
 
-            {filteredPokedex.length === 0 ? (
+            {paginationPokedex.length === 0 ? (
                 <div className="w-full flex justify-center pr-20 pl-20">
                     <span className="text-gray-500 font-bold text-lg border-t border-b border-gray-300 text-center w-full">Pokemon Tidak Ada</span>
                 </div>
             ) : (
             <div className="grid md:grid-cols-3 lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 gap-5 text-center flex pb-10">
-            {filteredPokedex.map((ex) => (
+            {paginationPokedex.map((ex) => (
                 <button onClick={() => pokemonDetail(ex.id) } className="bg-white rounded-md bg-[url('/src/assets/bg.jpg')] w-50 h-full flex flex-col justify-center items-center">
                     <span className="font-bold pt-2">{ex.name}</span>
                     <img src={ex.image} className="w-40 h-40 pt-5"></img>
@@ -121,7 +136,7 @@ export function Component() {
                         <span className={`${typeColor(ex.type2.name)} w-20 py-1`}>{ex.type2.name}</span>
                         )}
                     </div>
-                    <span className="text-gray-500 p-2">#000{ex.pokedex_id}</span>
+                    <span className="text-gray-500 p-2">{formatPokedexId(ex.pokedex_id)}</span>
                 </button>
             ))}
             </div>

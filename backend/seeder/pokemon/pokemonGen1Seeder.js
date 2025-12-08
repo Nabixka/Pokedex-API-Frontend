@@ -1,6 +1,6 @@
-const pool = require("../db")
+const pool = require("../../db")
 
-async function pokemonSeeder() {
+async function pokemonGen1Seeder() {
     try {
         const poke = [
             {
@@ -1757,8 +1757,7 @@ async function pokemonSeeder() {
                 type1: 10,
                 type2: null,
                 generation: 1
-            },
-
+            }
         ]
 
         for (let pokemon of poke) {
@@ -1767,14 +1766,11 @@ async function pokemonSeeder() {
                 [pokemon.name, pokemon.description, pokemon.height, pokemon.weight, pokemon.region_id, pokemon.image, pokemon.pokedex_id, pokemon.type1, pokemon.type2, pokemon.generation])
         }
 
-        console.log("Berhasil Membuat Pokemon")
+        console.log("Berhasil Membuat Pokemon Gen 1")
     }
     catch (err) {
         console.log("Gagal Membuat Pokemon, Error: ", err.message)
     }
-    finally {
-        process.exit(0)
-    }
 }
 
-module.exports = pokemonSeeder
+module.exports = pokemonGen1Seeder

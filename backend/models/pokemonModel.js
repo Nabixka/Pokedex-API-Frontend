@@ -79,7 +79,7 @@ const getPokemonById = async (id) => {
         LEFT JOIN type t1 ON p.type1 = t1.id 
         LEFT JOIN type t2 ON p.type2 = t2.id
         LEFT JOIN gen g ON p.generation = g.id 
-        WHERE p.id = $1`,
+        WHERE p.pokedex_id = $1`,
         [id])
 
     return result.rows[0]
