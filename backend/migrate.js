@@ -1,7 +1,7 @@
 const pool = require("./db");
 
 const createTables = async () => {
-    try{
+    try {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS gen(
             id SERIAL PRIMARY KEY,
@@ -137,12 +137,27 @@ const createTables = async () => {
             )
         `);
 
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS stats(
+            id SERIAL PRIMARY KEY,
+            pokemon_id INT NOT NULL,
+            HP INT NOT NULL,
+            Attack INT NOT NULL,
+            Sp_Attack INT NOT NULL,
+            Deff INT NOT NULL,
+            Sp_Deff INT NOT NULL,
+            Speed INT NOT NULL,
+            
+            FOREIGN KEY (pokemon_id) REFERENCES pokemon(id)
+            )
+        `)
+
         console.log("Berhasil membuat table")
     }
-    catch (err){
+    catch (err) {
         console.error("ERROR, gagal membuat table: ", err.message)
     }
-    finally{
+    finally {
         pool.end();
     }
 };

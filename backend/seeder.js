@@ -8,6 +8,7 @@ const pokemonGen3Seeder = require("./seeder/pokemon/pokemonGen3Seeder")
 const pokemonGen4Seeder = require("./seeder/pokemon/pokemonGen4Seeder")
 const pokemonGen5Seeder = require("./seeder/pokemon/pokemonGen5Seeder")
 const gameSeeder = require("./seeder/gameSeeder")
+const statsSeeder = require("./seeder/statsSeeder")
 
 async function seeder(){
     try{
@@ -22,6 +23,7 @@ async function seeder(){
         await pokemonGen4Seeder()
         await pokemonGen5Seeder()
         await gameSeeder()
+        await statsSeeder()
 
         console.log("Seeder Selesai")
     }
