@@ -129,6 +129,8 @@ const createTables = async () => {
             id SERIAL PRIMARY KEY,
             name VARCHAR UNIQUE,
             image TEXT,
+            console VARCHAR,
+            developer VARCHAR,
             gen_id INT,
             
             FOREIGN KEY (gen_id) REFERENCES gen(id)

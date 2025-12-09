@@ -24,7 +24,7 @@ export function Navbar() {
                 <div className="font-semibold flex gap-10 text-md">
                     <button className={`${isActive("/") ? "bg-yellow-500" : "bg-transparant"} py-2 px-10`} onClick={() => handleNavigate("")}>Home</button>
                     <button className={`${isActive("/pokedex") ? "bg-yellow-500" : "bg-transparant"} py-2 px-10`} onClick={() => handleNavigate("pokedex")}>Pokedex</button>
-                    <button className={`${isActive("/games") ? "bg-yellow-500" : "bg-transparant"} py-2 px-10`} onClick={() => handleNavigate("Games")}>Video Games</button>
+                    <button className={`${isActive("/games") ? "bg-yellow-500" : "bg-transparant"} py-2 px-10`} onClick={() => handleNavigate("games")}>Video Games</button>
                     <button className={`${isActive("/news") ? "bg-yellow-500" : "bg-transparant"} py-2 px-10`} onClick={() => handleNavigate("news")}>News</button>
                 </div >
             </div >

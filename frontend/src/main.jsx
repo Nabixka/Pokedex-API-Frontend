@@ -7,6 +7,7 @@ import Pokedex from './Page/Pokedex/Pokedex'
 import News from './Page/News/News'
 import Games from './Page/Games/Games'
 import Pokemon from './Page/Pokemon/pokemon'
+import Game from './Page/Games/GameDetail/Game'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')).render(
       <Route path="/games" element={<Games />} />
       <Route path="/news" element={<News />} />
       <Route path="/pokemon/:id" element={<Pokemon />} />
+      <Route path="game/:id" element={<Game />} />
     </Routes>
   </BrowserRouter>
 )

@@ -1,16 +1,15 @@
 const multer = require("multer")
 
-const storage = multer.diskStorage({
+const storage = (folder) => multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "./uploads");
+        cb(null, `./uploads/${folder}`);
     },
     filename: function (req, file, cb){
-        const cleanName = file.originalname.replace(/\s+/g, "_")
-        const unique = Date.now() + "-" + cleanName;
-        cb(null, unique)
+        cb(null, file.originalname)
     }
 })
 
-const upload = multer({storage: storage})
+const uploadGame = multer({storage: storage("game")})
+const uploadPokemon = multer({storage: storage("pokemon")})
 
-module.exports = upload
+module.exports = { uploadGame, uploadPokemon }

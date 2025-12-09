@@ -95,6 +95,7 @@ export function Component() {
         if(page === 2) return ex.generation.no === 2
         if(page === 3) return ex.generation.no === 3
         if(page === 4) return ex.generation.no === 4 
+        if(page === 5) return ex.generation.no === 5 
     })
 
     const formatPokedexId = (id) => "#" + id.toString().padStart(4, "0")
@@ -117,6 +118,7 @@ export function Component() {
                     <button onClick={() => setPage(2)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">2</button>
                     <button onClick={() => setPage(3)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">3</button>
                     <button onClick={() => setPage(4)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">4</button>
+                    <button onClick={() => setPage(5)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">5</button>
                 </div>
             </div>
 
@@ -127,7 +129,7 @@ export function Component() {
             ) : (
             <div className="grid md:grid-cols-3 lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 gap-5 text-center flex pb-10">
             {paginationPokedex.map((ex) => (
-                <button onClick={() => pokemonDetail(ex.id) } className="bg-white rounded-md bg-[url('/src/assets/bg.jpg')] w-50 h-full flex flex-col justify-center items-center">
+                <button onClick={() => pokemonDetail(ex.pokedex_id) } className="bg-white rounded-md bg-[url('/src/assets/bg.jpg')] w-50 h-full flex flex-col justify-center items-center">
                     <span className="font-bold pt-2">{ex.name}</span>
                     <img src={ex.image} className="w-40 h-40 pt-5"></img>
                     <div className="flex gap-3 pt-5">
