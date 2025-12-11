@@ -8,7 +8,13 @@ const pokemonGen3Seeder = require("./seeder/pokemon/pokemonGen3Seeder")
 const pokemonGen4Seeder = require("./seeder/pokemon/pokemonGen4Seeder")
 const pokemonGen5Seeder = require("./seeder/pokemon/pokemonGen5Seeder")
 const gameSeeder = require("./seeder/gameSeeder")
-const statsSeeder = require("./seeder/statsSeeder")
+const statsGen1Seeder = require("./seeder/stats/statsGen1Seeder")
+const statsGen2Seeder = require("./seeder/stats/statsGen2Seeder")
+const statsGen3Seeder = require("./seeder/stats/statsGen3Seeder")
+const statsGen4Seeder = require("./seeder/stats/statsGen4Seeder")
+const statsGen5Seeder = require("./seeder/stats/statsGen5Seeder")
+const evolutionGen1Seeder = require("./seeder/evolution/evolutionGen1Seeder")
+
 
 async function seeder(){
     try{
@@ -23,7 +29,13 @@ async function seeder(){
         await pokemonGen4Seeder()
         await pokemonGen5Seeder()
         await gameSeeder()
-        await statsSeeder()
+        await statsGen1Seeder()
+        await statsGen2Seeder()
+        await statsGen3Seeder()
+        await statsGen4Seeder()
+        await statsGen5Seeder()
+        await evolutionGen1Seeder()
+    
 
         console.log("Seeder Selesai")
     }

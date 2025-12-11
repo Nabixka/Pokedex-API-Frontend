@@ -1173,7 +1173,6 @@ async function pokemonGen3Seeder() {
         type2: 3,
         generation: 3
       },
-      // BAGIAN 4 — Dex 346–386
 
       {
         name: "Cradily",
@@ -1188,13 +1187,25 @@ async function pokemonGen3Seeder() {
         generation: 3
       },
       {
+        name: "Anorith",
+        description: "ANORITH was regenerated from a prehistoric fossil. This primitive POKéMON once lived in warm seas. It grips its prey firmly between its two large claws.",
+        height: 0.7,
+        weight: 12.5,
+        region_id: 3,
+        image: "http://localhost:3000/uploads/pokemon/anorith.png",
+        pokedex_id: 347,
+        type1: 11,
+        type2: 12,
+        generation: 3
+      },
+      {
         name: "Armaldo",
         description: "It lived on land and went into the sea to hunt for prey. It swims by flapping its wings.",
         height: 1.5,
         weight: 68.2,
         region_id: 3,
         image: "http://localhost:3000/uploads/pokemon/armaldo.png",
-        pokedex_id: 347,
+        pokedex_id: 348,
         type1: 11,
         type2: 12,
         generation: 3

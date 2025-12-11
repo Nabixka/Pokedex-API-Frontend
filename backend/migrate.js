@@ -115,8 +115,10 @@ const createTables = async () => {
             CREATE TABLE IF NOT EXISTS evolution(
             id SERIAL PRIMARY KEY,
             stage1 INT NOT NULL,
-            stage2 INT ,
+            stage2 INT,
+            how2 VARCHAR,
             stage3 INT,
+            how3 VARCHAR,
 
             FOREIGN KEY (stage1) REFERENCES pokemon(id),
             FOREIGN KEY (stage2) REFERENCES pokemon(id),
