@@ -103,6 +103,9 @@ const createTables = async () => {
         `);
 
         await pool.query(`
+            CREATE TYPE format AS ENUM ('GB', 'GBC', 'GBA', 'NDS', '3DS', 'NSP' )`)
+
+        await pool.query(`
             CREATE TABLE IF NOT EXISTS items(
             id SERIAL PRIMARY KEY,
             name VARCHAR (100) UNIQUE NOT NULL,
@@ -133,6 +136,8 @@ const createTables = async () => {
             image TEXT,
             console VARCHAR,
             developer VARCHAR,
+            format format,
+            file TEXT,
             gen_id INT,
             
             FOREIGN KEY (gen_id) REFERENCES gen(id)

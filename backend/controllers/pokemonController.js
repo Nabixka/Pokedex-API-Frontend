@@ -7,7 +7,7 @@ exports.createPokemon = async (req, res) => {
         const type2value = type2 || null
 
         const imageUrl = req.file
-            ? `http://localhost:3000/uploads/${req.file.filename}`
+            ? `http://localhost:3000/uploads/image/${req.file.filename}`
             : null;
 
         if(!name || !description || !weight || !height || !region_id || !imageUrl || !pokedex_id || !type1 || !generation){
@@ -99,7 +99,7 @@ exports.updatePokemon = async (req, res) => {
         const type2value = type2 || null
 
         const imageUrl = req.file
-            ? `http://localhost:3000/uploads/${req.file.filename}`
+            ? `http://localhost:3000/uploads/image/${req.file.filename}`
             : null
 
         const exist = await pokemon.getPokemonById(id)

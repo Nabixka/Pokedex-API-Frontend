@@ -45,10 +45,15 @@ exports.getGameById = async (req, res) => {
 exports.updateGame = async (req, res) => {
     try {
         const {id} = req.params
-        const {name, gen_id, console, developer} = req.body
+        const {name, gen_id, console, developer, format} = req.body
+
         const imageUrl = req.file
-        ? `http://localhost:3000/uploads/game/${req.file.filename}`
+        ? `http://localhost:3000/uploads/game/image/${req.file.filename}`
         : null
+
+        const fileUrl = req.file
+            ? `http://localhost:3000/uploads/game/download/${req.file.filename}`
+            : null;
 
         const exist = await game.getGameById(id)
 
@@ -59,14 +64,14 @@ exports.updateGame = async (req, res) => {
             })
         }
 
-        if(!name || !gen_id || !imageUrl || !console || !developer){
+        if(!name || !gen_id || !imageUrl || !console || !developer || !fileUrl || !format){
             return res.status(400).json({
                 status: 400,
                 message: "Isi Yang Benar WOk"
             })   
         }
 
-        const list = await game.updateGame(id, {name, gen_id, image: imageUrl, console, developer})
+        const list = await game.updateGame(id, {name, gen_id, image: imageUrl, console, developer, file: fileUrl, format})
         res.status(200).json({
             status:200,
             message: "Berhasil Mengupdate Data Gam",
@@ -84,12 +89,16 @@ exports.updateGame = async (req, res) => {
 
 exports.createGame = async (req, res) => {
     try {
-        const { name, gen_id, console, developer } = req.body
+        const { name, gen_id, console, developer, format } = req.body
         const imageUrl = req.file
-            ? `http://localhost:3000/uploads/game/${req.file.filename}`
+            ? `http://localhost:3000/uploads/game/image/${req.file.filename}`
             : null
 
-        if (!name || !imageUrl || !gen_id || !console || !developer) {
+        const fileUrl = req.file
+            ? `http://localhost:3000/uploads/game/download/${req.file.filename}`
+            : null;
+
+        if (!name || !imageUrl || !gen_id || !console || !developer || !fileUrl || !format) {
             return res.status(400).json({
                 status: 400,
                 message: "Isi Yang Benar WOk"
@@ -104,7 +113,7 @@ exports.createGame = async (req, res) => {
             })
         }
 
-        const list = await game.createGame({ name, image: imageUrl, gen_id, console, developer })
+        const list = await game.createGame({ name, image: imageUrl, gen_id, console, developer, file: fileUrl, format })
         res.status(201).json({
             status: 201,
             message: "Berhasil Membuat Game",

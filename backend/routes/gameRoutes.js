@@ -6,7 +6,7 @@ const { uploadGame } = require("../multer")
 router.get("/", gameController.getGame)
 router.get("/:id", gameController.getGameById)
 router.delete("/:id", gameController.deleteGame)
-router.post("/", uploadGame.single("image"), gameController.createGame)
-router.put("/:id", uploadGame.single("image"), gameController.updateGame)
+router.post("/", uploadGame.fields([{name: "image", maxCount: 1}, {name: "file", maxCount: 1}]), gameController.createGame)
+router.put("/:id", uploadGame.fields([{name: "image", maxCount: 1}, {name: "file", maxCount: 1}]), gameController.updateGame)
 
 module.exports = router

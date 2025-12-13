@@ -211,58 +211,71 @@ export function PokemonDetail() {
                 </div>
                 <div className="flex flex-col gap-10">
                     <span className="text-4xl font-bold">Evolution Line</span>
-                    <div className="flex justify-center gap-5 flex-col md:flex-row items-center align-center">
-                        {evol?.stage1 && (
-                            <button className="text-center" onClick={() => HandleNavigate(evol.stage1.pokedex_id)} >
-                                <div className="w-45 h-45 rounded-full bg-[url('/src/assets/bg.jpg')] flex align-center justify-center items-center">
-                                    <img className="w-35" src={`${evol.stage1.image}`}></img>
+
+                    <div className="flex justify-center gap-5 flex-col md:flex-row items-center">
+
+                        {evol?.stage1?.pokedex_id && (
+                            <button
+                                className="text-center"
+                                onClick={() => HandleNavigate(evol.stage1.pokedex_id)} >
+                                <div className="w-45 h-45 rounded-full bg-[url('/src/assets/bg.jpg')] flex items-center justify-center">
+                                    <img className="w-35" src={evol.stage1.image} />
                                 </div>
-                                <span className="text-lg font-semibold ">{evol.stage1.name}</span>
+                                <span className="text-lg font-semibold">
+                                    {evol.stage1.name}
+                                </span>
                             </button>
                         )}
 
-                        {evol?.how2 && (
-                            <div className="">
+                        {!!evol?.how2 && evol?.stage2?.pokedex_id && (
+                            <div className="flex flex-col items-center gap-2">
                                 <div className="hidden md:block">
-                                    <MoveRight size={50} width={50} color=" #c5c5c5" />
+                                    <MoveRight size={50} color="#c5c5c5" />
                                 </div>
                                 <div className="block md:hidden">
-                                    <MoveDown size={50} width={50} color=" #c5c5c5" />
+                                    <MoveDown size={50} color="#c5c5c5" />
                                 </div>
-                                <span className="font-semibold">{evol?.how2}</span>
+                                <span className="font-semibold">{evol.how2}</span>
                             </div>
                         )}
 
-                        {evol?.stage2 && (
-                            <button onClick={() => HandleNavigate(evol.stage2.pokedex_id)} className="text-center">
-                                <div className="bg-[url('/src/assets/bg.jpg')] rounded-full w-45 h-45 flex align-center items-center justify-center">
-                                    <img className="w-35" src={`${evol.stage2.image}`}></img>
+                        {evol?.stage2?.pokedex_id && (
+                            <button
+                                className="text-center"
+                                onClick={() => HandleNavigate(evol.stage2.pokedex_id)} >
+                                <div className="w-45 h-45 rounded-full bg-[url('/src/assets/bg.jpg')] flex items-center justify-center">
+                                    <img className="w-35" src={evol.stage2.image} />
                                 </div>
-                                <span className="text-lg font-semibold">{evol.stage2.name}</span>
+                                <span className="text-lg font-semibold">
+                                    {evol.stage2.name}
+                                </span>
                             </button>
                         )}
 
-                        {evol?.how3 && (
-                            <div className="">
+                        {!!evol?.how3 && evol?.stage3?.pokedex_id && (
+                            <div className="flex flex-col items-center gap-2">
                                 <div className="hidden md:block">
-                                    <MoveRight size={50} width={50} color=" #c5c5c5" />
+                                    <MoveRight size={50} color="#c5c5c5" />
                                 </div>
                                 <div className="block md:hidden">
-                                    <MoveDown size={50} width={50} color=" #c5c5c5" />
+                                    <MoveDown size={50} color="#c5c5c5" />
                                 </div>
-                                <span className="font-semibold">{evol?.how3}</span>
+                                <span className="font-semibold">{evol.how3}</span>
                             </div>
                         )}
 
-                        {evol?.stage3 && (
-                            <button className="text-center" onClick={() => HandleNavigate(evol.stage3.pokedex_id)}>
-                                <div className="bg-[url('/src/assets/bg.jpg')] rounded-full  w-45 h-45 flex justify-center items-center align-center">
-                                    <img className="h-30 w-30" src={`${evol.stage3.image}`}></img>
+                        {evol?.stage3?.pokedex_id && (
+                            <button
+                                className="text-center"
+                                onClick={() => HandleNavigate(evol.stage3.pokedex_id)} >
+                                <div className="w-45 h-45 rounded-full bg-[url('/src/assets/bg.jpg')] flex items-center justify-center">
+                                    <img className="w-30 h-30" src={evol.stage3.image} />
                                 </div>
-                                <span className="font-semibold text-lg">{evol.stage3.name}</span>
+                                <span className="text-lg font-semibold">
+                                    {evol.stage3.name}
+                                </span>
                             </button>
                         )}
-
                     </div>
                 </div>
             </div>
