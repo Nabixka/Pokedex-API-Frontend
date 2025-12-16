@@ -117,15 +117,12 @@ const createTables = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS evolution(
             id SERIAL PRIMARY KEY,
-            stage1 INT NOT NULL,
-            stage2 INT,
-            how2 VARCHAR,
-            stage3 INT,
-            how3 VARCHAR,
+            pre_stage INT,
+            post_stage INT,
+            method VARCHAR,
 
-            FOREIGN KEY (stage1) REFERENCES pokemon(id),
-            FOREIGN KEY (stage2) REFERENCES pokemon(id),
-            FOREIGN KEY (stage3) REFERENCES pokemon(id)
+            FOREIGN KEY (pre_stage) REFERENCES pokemon(id),
+            FOREIGN KEY (post_stage) REFERENCES pokemon(id)
             )`)
 
 

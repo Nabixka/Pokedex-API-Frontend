@@ -1,66 +1,106 @@
 const pool = require("../db")
 
-const getAllEvol = async () => {
+const getEvol = async () => {
     const result = await pool.query(`
         SELECT 
         e.id,
 
         json_build_object(
-            'id', p1.id,
-            'name', p1.name,
-            'description', p1.description,
-            'height', p1.height,
-            'weight', p1.weight,
-            'image', p1.image,
-            'region', json_build_object(
-                'id', r1.id,
-                'name', r1.name
-                )
-            ) AS stage1,
+        'id', p1.id,
+        'name', p1.name,
+        'pokedex_id', p1.pokedex_id) AS pre_stage,
         
         json_build_object(
-            'id', p2.id,
-            'name', p2.name,
-            'description', p2.description,
-            'height', p2.height,
-            'weight', p2.weight,
-            'image', p2.image,
-            'region', json_build_object(
-                'id', r2.id,
-                'name', r2.name
-                )
-            ) AS stage2,
-
-        e.how2,
-        
-        json_build_object(
-            'id', p3.id,
-            'name', p3.name,
-            'description', p3.description,
-            'height', p3.height,
-            'weight', p3.weight,
-            'image', p3.image,
-            'region', json_build_object(
-                'id', r3.id,
-                'name', r3.name
-                )
-            ) AS stage3,
-        
-        e.how3
+        'id', p2.id,
+        'name', p2.name,
+        'pokedex_id', p2.pokedex_id) AS post_stage,
+    
+        e.method
 
         FROM evolution e
-        LEFT JOIN pokemon p1 ON e.stage1 = p1.id
-        LEFT JOIN region r1 ON p1.region_id = r1.id
-        
-        LEFT JOIN pokemon p2 ON e.stage2 = p2.id
-        LEFT JOIN region r2 ON p2.region_id = r2.id
-        
-        LEFT JOIN pokemon p3 ON e.stage3 = p3.id
-        LEFT JOIN region r3 ON p3.region_id = r3.id
-
-        `)
+        LEFT JOIN pokemon p1 ON e.pre_stage = p1.id
+        LEFT JOIN pokemon p2 ON e.post_stage = p2.id
+    `)
 
     return result.rows
+}
+
+const deleteEvol = async (id) => {
+    const result = await pool.query(`
+        DELETE FROM evolution WHERE id = $1`,
+        [id])
+
+    return result.rows[0]
+}
+
+const createEvol = async (data) => {
+    const { pre_stage, post_stage, method } = data
+
+    const create = await pool.query(`
+        INSERT INTO evolution (pre_stage, post_stage, method) VALUES ($1, $2, $3) RETURNING id`,
+        [pre_stage, post_stage, method])
+
+    const newId = create.rows[0].id
+
+    const result = await pool.query(`
+        SELECT 
+        e.id,
+
+        json_build_object(
+        'id', p1.id,
+        'name', p1.name,
+        'pokedex_id', p1.pokedex_id) AS pre_stage,
+        
+        json_build_object(
+        'id', p2.id,
+        'name', p2.name,
+        'pokedex_id', p2.pokedex_id) AS post_stage,
+    
+        e.method
+
+        FROM evolution e
+        LEFT JOIN pokemon p1 ON e.pre_stage = p1.id
+        LEFT JOIN pokemon p2 ON e.post_stage = p2.id
+        WHERE e.id = $1
+        
+        `, [newId])
+
+    return result.rows[0]
+}
+
+const updateEvol = async (data, id) => {
+    const { pre_stage, post_stage, method } = data
+    const update = await pool.query(`
+        UPDATE evolution SET pre_stage = $1, post_stage = $2, method = $3 WHERE id = $4 RETURNING id`,
+        [pre_stage, post_stage, method, id])
+
+    const newId = update.rows[0].id
+
+    const result = await pool.query(`
+        SELECT 
+        e.id,
+
+        json_build_object(
+        'id', p1.id,
+        'name', p1.name,
+        'pokedex_id', p1.pokedex_id) AS pre_stage,
+        
+        json_build_object(
+        'id', p2.id,
+        'name', p2.name,
+        'pokedex_id', p2.pokedex_id) AS post_stage,
+    
+        e.method
+
+        FROM evolution e
+        LEFT JOIN pokemon p1 ON e.pre_stage = p1.id
+        LEFT JOIN pokemon p2 ON e.post_stage = p2.id
+        WHERE e.id = $1
+    
+    `, [newId])
+
+    return result.rows[0]
+
 }
 
 const getEvolById = async (id) => {
@@ -69,260 +109,134 @@ const getEvolById = async (id) => {
         e.id,
 
         json_build_object(
-            'id', p1.id,
-            'name', p1.name,
-            'description', p1.description,
-            'height', p1.height,
-            'weight', p1.weight,
-            'image', p1.image,
-            'region', json_build_object(
-                'id', r1.id,
-                'name', r1.name
-                )
-            ) AS stage1,
-            
-        json_build_object(
-            'id', p2.id,
-            'name', p2.name,
-            'description', p2.description,
-            'height', p2.height,
-            'weight', p2.weight,
-            'image', p2.image,
-            'region', json_build_object(
-                'id', r2.id,
-                'name', r2.name
-                )
-            ) AS stage2,
-        
-        e.how2,
-
-        json_build_object(
-            'id', p3.id,
-            'name', p3.name,
-            'description', p3.description,
-            'height', p3.height,
-            'weight', p3.weight,
-            'image', p3.image,
-            'region', json_build_object(
-                'id', r3.id,
-                'name', r3.name
-                )
-            ) AS stage3,
-        
-        e.how3
-
-        FROM evolution e
-
-        LEFT JOIN pokemon p1 ON e.stage1 = p1.id
-        LEFT JOIN region r1 ON p1.region_id = r1.id
-
-        LEFT JOIN pokemon p2 ON e.stage2 = p2.id
-        LEFT JOIN region r2 ON p2.region_id = r2.id
-        
-        LEFT JOIN pokemon p3 ON e.stage3 = p3.id
-        LEFT JOIN region r3 ON p3.region_id = r3.id
-        
-
-         WHERE e.id = $1`,
-    [id])
-
-    return result.rows[0]
-}
-
-const createEvol = async (data) => {
-    const {stage1, stage2, how2, stage3, how3} = data
-    const create = await pool.query(`
-        INSERT INTO evolution (stage1, stage2, how2, stage3, how3) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-    [stage1, stage2, how2, stage3, how3])
-
-    const isi = create.rows[0].id
-
-    const result = await pool.query(`
-        SELECT 
-        e.id,
-
-        json_build_object(
-            'id', p1.id,
-            'name', p1.name,
-            'description', p1.description,
-            'height', p1.height,
-            'weight', p1.weight,
-            'image', p1.image,
-            'region', json_build_object(
-                'id', r1.id,
-                'name', r1.name
-                )
-            ) AS stage1,
-            
-        json_build_object(
-            'id', p2.id,
-            'name', p2.name,
-            'description', p2.description,
-            'height', p2.height,
-            'weight', p2.weight,
-            'image', p2.image,
-            'region', json_build_object(
-                'id', r2.id,
-                'name', r2.name
-                )
-            ) AS stage2,
-
-        e.how2,
-
-        json_build_object(
-            'id', p3.id,
-            'name', p3.name,
-            'description', p3.description,
-            'height', p3.height,
-            'weight', p3.weight,
-            'image', p2.image,
-            'region', json_build_object(
-                'id', r3.id,
-                'name', r3.name
-                )
-            ) AS stage3,
-
-        e.how3
-
-        FROM evolution e
-
-        LEFT JOIN pokemon p1 ON e.stage1 = p1.id
-        LEFT JOIN region r1 ON p1.region_id = r1.id
-
-        LEFT JOIN pokemon p2 ON e.stage2 = p2.id
-        LEFT JOIN region r2 ON p2.region_id = r2.id
-        
-        LEFT JOIN pokemon p3 ON e.stage3 = p3.id
-        LEFT JOIN region r3 ON p3.region_id = r3.id
-        
-
-         WHERE e.id = $1`, 
-         [isi])
-
-    return result.rows[0]
-}
-
-const deleteEvol = async (id) => {
-    const result = await pool.query(`
-        DELETE FROM evolution WHERE id = $1 RETURNING *`,
-    [id])
-
-    return result.rows[0]
-}
-
-const updateEvol = async (id, data) => {
-    const {stage1, stage2, how2, stage3, how3} = data
-    
-    const update = await pool.query(`
-        UPDATE evolution SET stage1 = $1, stage2 = $2, how2 = $3, stage3 = $4, how3 = $5 WHERE id = $6 RETURNING *`,
-    [stage1, stage2, how2, stage3, how3, id])
-
-    const isi = update.rows[0].id
-
-    const result = await pool.query(`
-        SELECT 
-        e.id,
-
-        json_build_object(
-            'id', p1.id,
-            'name', p1.name,
-            'description', p1.description,
-            'height', p1.height,
-            'weight', p1.weight,
-            'image', p1.image,
-            'region', json_build_object(
-                'id', r1.id,
-                'name', r1.name
-                )
-            ) AS stage1,
-            
-        json_build_object(
-            'id', p2.id,
-            'name', p2.name,
-            'description', p2.description,
-            'height', p2.height,
-            'weight', p2.weight,
-            'image', p2.image,
-            'region', json_build_object(
-                'id', r2.id,
-                'name', r2.name
-                )
-            ) AS stage2,
-
-        e.how2,
-
-        json_build_object(
-            'id', p3.id,
-            'name', p3.name,
-            'description', p3.description,
-            'height', p3.height,
-            'weight', p3.weight,
-            'image', p3.image,
-            'region', json_build_object(
-                'id', r3.id,
-                'name', r3.name
-                )
-            ) AS stage3,
-        
-        e.how3
-
-        FROM evolution e
-
-        LEFT JOIN pokemon p1 ON e.stage1 = p1.id
-        LEFT JOIN region r1 ON p1.region_id = r1.id
-
-        LEFT JOIN pokemon p2 ON e.stage2 = p2.id
-        LEFT JOIN region r2 ON p2.region_id = r2.id
-        
-        LEFT JOIN pokemon p3 ON e.stage3 = p3.id
-        LEFT JOIN region r3 ON p3.region_id = r3.id
-        
-
-         WHERE e.id = $1`,
-    [isi])
-
-    return result.rows[0]
-}
-
-const getEvolByPokemonId = async (id) => {
-    const result = await pool.query(`
-        SELECT
-        e.id,
-
-        json_build_object(
         'id', p1.id,
         'name', p1.name,
-        'image', p1.image,
-        'pokedex_id', p1.pokedex_id
-        ) AS stage1,
-
+        'pokedex_id', p1.pokedex_id) AS pre_stage,
+        
         json_build_object(
         'id', p2.id,
         'name', p2.name,
-        'image', p2.image, 
-        'pokedex_id', p2.pokedex_id
-        ) AS stage2,
+        'pokedex_id', p2.pokedex_id) AS post_stage,
+    
+        e.method
 
-        e.how2,
-
-        json_build_object(
-        'id', p3.id,
-        'name', p3.name,
-        'pokedex_id', p3.pokedex_id,
-        'image', p3.image 
-        ) AS stage3,
-
-        e.how3
-        
         FROM evolution e
-        LEFT JOIN pokemon p1 ON e.stage1 = p1.id
-        LEFT JOIN pokemon p2 ON e.stage2 = p2.id
-        LEFT JOIN pokemon p3 ON e.stage3 = p3.id
-
-        WHERE e.stage1 = $1 OR e.stage2 = $1 OR e.stage3 = $1 LIMIT 1
+        LEFT JOIN pokemon p1 ON e.pre_stage = p1.id
+        LEFT JOIN pokemon p2 ON e.post_stage = p2.id
+        WHERE e.id = $1
+    
         `, [id])
 
-        return result.rows[0]
+    return result.rows[0]
 }
 
-module.exports = { getAllEvol, getEvolById, createEvol, deleteEvol, updateEvol, getEvolByPokemonId }
+
+const getEvolutionChain = async (pokedex_id) => {
+    const result = await pool.query(`
+        WITH RECURSIVE
+
+        -- cari pokemon awal
+        start_pokemon AS (
+            SELECT id, name, pokedex_id
+            FROM pokemon
+            WHERE pokedex_id = $1
+        ),
+
+        -- naik ke atas cari base
+        ancestors AS (
+            SELECT p.id, p.name, p.pokedex_id
+            FROM pokemon p
+            JOIN start_pokemon sp ON p.id = sp.id
+
+            UNION
+
+            SELECT p2.id, p2.name, p2.pokedex_id
+            FROM evolution e
+            JOIN ancestors a ON e.post_stage = a.id
+            JOIN pokemon p2 ON e.pre_stage = p2.id
+        ),
+
+        -- base = yang PALING ATAS
+        base AS (
+            SELECT *
+            FROM ancestors
+            WHERE id NOT IN (SELECT post_stage FROM evolution)
+            LIMIT 1
+        ),
+
+        -- turun ke bawah ambil semua evolusi
+        descendants AS (
+            SELECT 
+                e.pre_stage,
+                e.post_stage,
+                e.method
+            FROM evolution e
+            JOIN base b ON e.pre_stage = b.id
+
+            UNION ALL
+
+            SELECT 
+                e.pre_stage,
+                e.post_stage,
+                e.method
+            FROM evolution e
+            JOIN descendants d ON e.pre_stage = d.post_stage
+        )
+
+        SELECT 
+            b.id AS base_id,
+            b.name AS base_name,
+            b.pokedex_id AS base_pokedex,
+
+            p1.id AS pre_id,
+            p1.name AS pre_name,
+            p1.pokedex_id AS pre_pokedex,
+
+            p2.id AS post_id,
+            p2.name AS post_name,
+            p2.pokedex_id AS post_pokedex,
+
+            d.method
+        FROM base b
+        LEFT JOIN descendants d ON true
+        LEFT JOIN pokemon p1 ON d.pre_stage = p1.id
+        LEFT JOIN pokemon p2 ON d.post_stage = p2.id
+    `, [pokedex_id])
+
+    if (result.rows.length === 0) return null
+
+    const base = {
+        id: result.rows[0].base_id,
+        name: result.rows[0].base_name,
+        pokedex_id: result.rows[0].base_pokedex
+    }
+
+    const edges = result.rows
+        .filter(r => r.post_id)
+        .map(r => ({
+            pre_id: r.pre_id,
+            post_id: r.post_id,
+            post_name: r.post_name,
+            post_pokedex: r.post_pokedex,
+            method: r.method
+        }))
+
+    const buildTree = (id) => {
+        return edges
+            .filter(e => e.pre_id === id)
+            .map(e => ({
+                id: e.post_id,
+                name: e.post_name,
+                pokedex_id: e.post_pokedex,
+                method: e.method,
+                evolves_to: buildTree(e.post_id)
+            }))
+    }
+
+    return {
+        base,
+        chain: buildTree(base.id)
+    }
+}
+
+module.exports = { getEvol, deleteEvol, updateEvol, getEvolById, createEvol, getEvolutionChain }

@@ -13,7 +13,6 @@ export function PokemonDetail() {
     const [sebelum, setSebelum] = useState({})
     const [sesudah, setSesudah] = useState({})
     const navigate = useNavigate()
-    const [evol, setEvol] = useState({})
 
     const typeColor = (typeName = "") => {
         const t = typeName.toLowerCase()
@@ -124,24 +123,6 @@ export function PokemonDetail() {
         navigate(`/pokemon/${pokedex_id}`)
     }
 
-    useEffect(() => {
-        const evolution = async () => {
-            try {
-                const res = await fetch(`${API_URL}/evolution/pokemon/${pokemon.id}`)
-                const json = await res.json()
-
-                setEvol(json.data)
-            }
-            catch (err) {
-                console.log(err.message)
-            }
-        }
-
-        evolution()
-    }, [pokemon.id])
-
-
-
     return (
         <div className="bg-white rounded-md pl-5 pt-5 pr-5 pb-5 flex flex-col gap-5">
 
@@ -214,68 +195,6 @@ export function PokemonDetail() {
 
                     <div className="flex justify-center gap-5 flex-col md:flex-row items-center">
 
-                        {evol?.stage1?.pokedex_id && (
-                            <button
-                                className="text-center"
-                                onClick={() => HandleNavigate(evol.stage1.pokedex_id)} >
-                                <div className="w-45 h-45 rounded-full bg-[url('/src/assets/bg.jpg')] flex items-center justify-center">
-                                    <img className="w-35" src={evol.stage1.image} />
-                                </div>
-                                <span className="text-lg font-semibold">
-                                    {evol.stage1.name}
-                                </span>
-                            </button>
-                        )}
-
-                        {!!evol?.how2 && evol?.stage2?.pokedex_id && (
-                            <div className="flex flex-col items-center gap-2">
-                                <div className="hidden md:block">
-                                    <MoveRight size={50} color="#c5c5c5" />
-                                </div>
-                                <div className="block md:hidden">
-                                    <MoveDown size={50} color="#c5c5c5" />
-                                </div>
-                                <span className="font-semibold">{evol.how2}</span>
-                            </div>
-                        )}
-
-                        {evol?.stage2?.pokedex_id && (
-                            <button
-                                className="text-center"
-                                onClick={() => HandleNavigate(evol.stage2.pokedex_id)} >
-                                <div className="w-45 h-45 rounded-full bg-[url('/src/assets/bg.jpg')] flex items-center justify-center">
-                                    <img className="w-35" src={evol.stage2.image} />
-                                </div>
-                                <span className="text-lg font-semibold">
-                                    {evol.stage2.name}
-                                </span>
-                            </button>
-                        )}
-
-                        {!!evol?.how3 && evol?.stage3?.pokedex_id && (
-                            <div className="flex flex-col items-center gap-2">
-                                <div className="hidden md:block">
-                                    <MoveRight size={50} color="#c5c5c5" />
-                                </div>
-                                <div className="block md:hidden">
-                                    <MoveDown size={50} color="#c5c5c5" />
-                                </div>
-                                <span className="font-semibold">{evol.how3}</span>
-                            </div>
-                        )}
-
-                        {evol?.stage3?.pokedex_id && (
-                            <button
-                                className="text-center"
-                                onClick={() => HandleNavigate(evol.stage3.pokedex_id)} >
-                                <div className="w-45 h-45 rounded-full bg-[url('/src/assets/bg.jpg')] flex items-center justify-center">
-                                    <img className="w-30 h-30" src={evol.stage3.image} />
-                                </div>
-                                <span className="text-lg font-semibold">
-                                    {evol.stage3.name}
-                                </span>
-                            </button>
-                        )}
                     </div>
                 </div>
             </div>

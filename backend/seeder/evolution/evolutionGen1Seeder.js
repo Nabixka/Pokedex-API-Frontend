@@ -2,165 +2,95 @@ const pool = require("../../db")
 
 async function evolutionGen1Seeder() {
     try {
-        const evol = [
-
-            { stage1: 1, stage2: 2, how2: "Level 16", stage3: 3, how3: "Level 32" },
-            { stage1: 4, stage2: 5, how2: "Level 16", stage3: 6, how3: "Level 36" },
-            { stage1: 7, stage2: 8, how2: "Level 16", stage3: 9, how3: "Level 36" },
-
-            { stage1: 10, stage2: 11, how2: "Level 7", stage3: 12, how3: "Level 10" },
-            { stage1: 13, stage2: 14, how2: "Level 7", stage3: 15, how3: "Level 10" },
-
-            { stage1: 16, stage2: 17, how2: "Level 18", stage3: 18, how3: "Level 36" },
-            { stage1: 19, stage2: 20, how2: "Level 20", stage3: null, how3: null },
-            { stage1: 21, stage2: 22, how2: "Level 20", stage3: null, how3: null },
-            { stage1: 23, stage2: 24, how2: "Level 22", stage3: null, how3: null },
-
-            { stage1: 25, stage2: 26, how2: "Use Thunder Stone", stage3: null, how3: null },
-            { stage1: 27, stage2: 28, how2: "Level 22", stage3: null, how3: null },
-
-            { stage1: 29, stage2: 30, how2: "Level 16", stage3: 31, how3: "Use Moon Stone" },
-            { stage1: 32, stage2: 33, how2: "Level 16", stage3: 34, how3: "Use Moon Stone" },
-
-            { stage1: 35, stage2: 36, how2: "Use Moon Stone", stage3: null, how3: null },
-            { stage1: 37, stage2: 38, how2: "Use Fire Stone", stage3: null, how3: null },
-
-            { stage1: 39, stage2: 40, how2: "Use Moon Stone", stage3: null, how3: null },
-
-            { stage1: 41, stage2: 42, how2: "Level 22", stage3: null, how3: null },
-            { stage1: 43, stage2: 44, how2: "Level 21", stage3: 45, how3: "Level 30" },
-
-            { stage1: 46, stage2: 47, how2: "Level 24", stage3: null, how3: null },
-            { stage1: 48, stage2: 49, how2: "Level 31", stage3: null, how3: null },
-
-            { stage1: 50, stage2: 51, how2: "Level 26", stage3: null, how3: null },
-
-            { stage1: 52, stage2: 53, how2: "Level 28", stage3: null, how3: null },
-
-            { stage1: 54, stage2: 55, how2: "Level 33", stage3: null, how3: null },
-
-            { stage1: 56, stage2: 57, how2: "Level 28", stage3: null, how3: null },
-
-            { stage1: 58, stage2: 59, how2: "Use Fire Stone", stage3: null, how3: null },
-
-            { stage1: 60, stage2: 61, how2: "Level 25", stage3: 62, how3: "Use Water Stone" },
-
-            { stage1: 63, stage2: 64, how2: "Level 16", stage3: 65, how3: "Trade" },
-
-            { stage1: 66, stage2: 67, how2: "Level 28", stage3: 68, how3: "Trade" },
-
-            { stage1: 69, stage2: 70, how2: "Level 21", stage3: 71, how3: "Use Leaf Stone" },
-
-            { stage1: 72, stage2: 73, how2: "Level 30", stage3: null, how3: null },
-
-            { stage1: 74, stage2: 75, how2: "Level 25", stage3: 76, how3: "Trade" },
-
-            { stage1: 77, stage2: 78, how2: "Level 40", stage3: null, how3: null },
-
-            { stage1: 79, stage2: 80, how2: "Level 37", stage3: null, how3: null },
-
-            { stage1: 81, stage2: 82, how2: "Level 30", stage3: null, how3: null },
-
-            { stage1: 84, stage2: 85, how2: "Level 31", stage3: null, how3: null },
-
-            { stage1: 86, stage2: 87, how2: "Level 34", stage3: null, how3: null },
-
-            { stage1: 88, stage2: 89, how2: "Level 38", stage3: null, how3: null },
-
-            { stage1: 90, stage2: 91, how2: "Use Water Stone", stage3: null, how3: null },
-
-            { stage1: 92, stage2: 93, how2: "Level 25", stage3: 94, how3: "Trade" },
-
-            { stage1: 95, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 96, stage2: 97, how2: "Level 26", stage3: null, how3: null },
-
-            { stage1: 98, stage2: 99, how2: "Level 28", stage3: null, how3: null },
-
-            { stage1: 100, stage2: 101, how2: "Level 30", stage3: null, how3: null },
-
-            { stage1: 102, stage2: 103, how2: "Use Leaf Stone", stage3: null, how3: null },
-
-            { stage1: 104, stage2: 105, how2: "Level 28", stage3: null, how3: null },
-
-            { stage1: 106, stage2: null, how2: null, stage3: null, how3: null },
-            { stage1: 107, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 108, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 109, stage2: 110, how2: "Level 35", stage3: null, how3: null },
-
-            { stage1: 111, stage2: 112, how2: "Level 42", stage3: null, how3: null },
-
-            { stage1: 113, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 114, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 115, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 116, stage2: 117, how2: "Level 32", stage3: null, how3: null },
-
-            { stage1: 118, stage2: 119, how2: "Level 33", stage3: null, how3: null },
-
-            { stage1: 120, stage2: 121, how2: "Use Water Stone", stage3: null, how3: null },
-
-            { stage1: 122, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 123, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 124, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 125, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 126, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 127, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 128, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 129, stage2: 130, how2: "Level 20", stage3: null, how3: null },
-
-            { stage1: 131, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 132, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 133, stage2: 134, how2: "Use Water Stone", stage3: null, how3: null },
-
-            { stage1: 133, stage2: 135, how2: "Use Thunder Stone", stage3: null, how3: null },
-            { stage1: 133, stage2: 136, how2: "Use Fire Stone", stage3: null, how3: null },
-
-            { stage1: 137, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 138, stage2: 139, how2: "Level 40", stage3: null, how3: null },
-
-            { stage1: 140, stage2: 141, how2: "Level 40", stage3: null, how3: null },
-
-            { stage1: 142, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 143, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 144, stage2: null, how2: null, stage3: null, how3: null },
-            { stage1: 145, stage2: null, how2: null, stage3: null, how3: null },
-            { stage1: 146, stage2: null, how2: null, stage3: null, how3: null },
-
-            { stage1: 147, stage2: 148, how2: "Level 30", stage3: 149, how3: "Level 55" },
-
-            { stage1: 150, stage2: null, how2: null, stage3: null, how3: null },
-            { stage1: 151, stage2: null, how2: null, stage3: null, how3: null }
-
-
+        const evolution = [
+            { pre_stage: 1, post_stage: 2, method: "Level 16" },
+            { pre_stage: 2, post_stage: 3, method: "Level 32" },
+            { pre_stage: 4, post_stage: 5, method: "Level 16" },
+            { pre_stage: 5, post_stage: 6, method: "Level 36" },
+            { pre_stage: 7, post_stage: 8, method: "Level 16" },
+            { pre_stage: 8, post_stage: 9, method: "Level 36" },
+            { pre_stage: 10, post_stage: 11, method: "Level 7" },
+            { pre_stage: 11, post_stage: 12, method: "Level 10" },
+            { pre_stage: 13, post_stage: 14, method: "Level 7" },
+            { pre_stage: 14, post_stage: 15, method: "Level 10" },
+            { pre_stage: 16, post_stage: 17, method: "Level 18" },
+            { pre_stage: 17, post_stage: 18, method: "Level 36" },
+            { pre_stage: 19, post_stage: 20, method: "Level 20" },
+            { pre_stage: 21, post_stage: 22, method: "Level 20" },
+            { pre_stage: 23, post_stage: 24, method: "Level 22" },
+            { pre_stage: 25, post_stage: 26, method: "Thunder Stone" },
+            { pre_stage: 27, post_stage: 28, method: "Level 22" },
+            { pre_stage: 29, post_stage: 30, method: "Level 16" },
+            { pre_stage: 30, post_stage: 31, method: "Moon Stone" },
+            { pre_stage: 32, post_stage: 33, method: "Level 16" },
+            { pre_stage: 33, post_stage: 34, method: "Moon Stone" },
+            { pre_stage: 35, post_stage: 36, method: "Moon Stone" },
+            { pre_stage: 37, post_stage: 38, method: "Fire Stone" },
+            { pre_stage: 39, post_stage: 40, method: "Moon Stone" },
+            { pre_stage: 41, post_stage: 42, method: "Level 22" },
+            { pre_stage: 43, post_stage: 44, method: "Level 21" },
+            { pre_stage: 44, post_stage: 45, method: "Leaf Stone" },
+            { pre_stage: 44, post_stage: 182, method: "Sun Stone" },
+            { pre_stage: 46, post_stage: 47, method: "Level 24" },
+            { pre_stage: 48, post_stage: 49, method: "Level 31" },
+            { pre_stage: 50, post_stage: 51, method: "Level 26" },
+            { pre_stage: 52, post_stage: 53, method: "Level 28" },
+            { pre_stage: 54, post_stage: 55, method: "Level 33" },
+            { pre_stage: 56, post_stage: 57, method: "Level 28" },
+            { pre_stage: 58, post_stage: 59, method: "Fire Stone" },
+            { pre_stage: 60, post_stage: 61, method: "Level 25" },
+            { pre_stage: 61, post_stage: 62, method: "Water Stone" },
+            { pre_stage: 63, post_stage: 64, method: "Level 16" },
+            { pre_stage: 64, post_stage: 65, method: "Level 35" },
+            { pre_stage: 66, post_stage: 67, method: "Level 28" },
+            { pre_stage: 67, post_stage: 68, method: "Level 36" },
+            { pre_stage: 69, post_stage: 70, method: "Level 21" },
+            { pre_stage: 70, post_stage: 71, method: "Leaf Stone" },
+            { pre_stage: 72, post_stage: 73, method: "Level 30" },
+            { pre_stage: 74, post_stage: 75, method: "Level 25" },
+            { pre_stage: 75, post_stage: 76, method: "Level 25" },
+            { pre_stage: 77, post_stage: 78, method: "Level 40" },
+            { pre_stage: 79, post_stage: 80, method: "Level 37" },
+            { pre_stage: 81, post_stage: 82, method: "Level 30" },
+            { pre_stage: 84, post_stage: 85, method: "Level 31" },
+            { pre_stage: 86, post_stage: 87, method: "Level 34" },
+            { pre_stage: 88, post_stage: 89, method: "Level 38" },
+            { pre_stage: 90, post_stage: 91, method: "Water Stone" },
+            { pre_stage: 92, post_stage: 93, method: "Level 25" },
+            { pre_stage: 93, post_stage: 94, method: "Trade" },
+            { pre_stage: 95, post_stage: 208, method: "Trade" },
+            { pre_stage: 96, post_stage: 97, method: "Level 26" },
+            { pre_stage: 98, post_stage: 99, method: "Level 28" },
+            { pre_stage: 100, post_stage: 101, method: "Level 30" },
+            { pre_stage: 102, post_stage: 103, method: "Leaf Stone" },
+            { pre_stage: 104, post_stage: 105, method: "Level 28" },
+            { pre_stage: 109, post_stage: 110, method: "Level 35" },
+            { pre_stage: 111, post_stage: 112, method: "Level 42" },
+            { pre_stage: 113, post_stage: 242, method: "Happiness" },
+            { pre_stage: 114, post_stage: 465, method: "Level Up" },
+            { pre_stage: 116, post_stage: 117, method: "Level 32" },
+            { pre_stage: 118, post_stage: 119, method: "Level 33" },
+            { pre_stage: 120, post_stage: 121, method: "Water Stone" },
+            { pre_stage: 129, post_stage: 130, method: "Level 20" },
+            { pre_stage: 133, post_stage: 134, method: "Water Stone" },
+            { pre_stage: 133, post_stage: 135, method: "Thunder Stone" },
+            { pre_stage: 133, post_stage: 136, method: "Fire Stone" },
+            { pre_stage: 138, post_stage: 139, method: "Level 40" },
+            { pre_stage: 140, post_stage: 141, method: "Level 40" },
+            { pre_stage: 147, post_stage: 148, method: "Level 30" },
+            { pre_stage: 148, post_stage: 149, method: "Level 55" }
         ]
 
-        for (let evolution of evol) {
+        for (let evol of evolution) {
             await pool.query(`
-                INSERT INTO evolution (stage1, stage2, how2, stage3, how3) VALUES ($1, $2, $3, $4, $5)`,
-                [evolution.stage1, evolution.stage2, evolution.how2, evolution.stage3, evolution.how3])
+                INSERT INTO evolution (pre_stage, post_stage, method) VALUES ($1, $2, $3)`,
+                [evol.pre_stage, evol.post_stage, evol.method])
         }
 
         console.log("Berhasil Membuat Evolution Pokemon Gen 1")
     }
     catch (err) {
-        console.log("Gagal Membuat Evolution Pokemon Gen 1, Error: ", err.message)
+        console.log("Gagal, ", err.message)
     }
 }
 
