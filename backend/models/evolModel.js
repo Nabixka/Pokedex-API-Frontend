@@ -135,28 +135,25 @@ const getEvolutionChain = async (pokedex_id) => {
     const result = await pool.query(`
         WITH RECURSIVE
 
-        -- cari pokemon awal
         start_pokemon AS (
-            SELECT id, name, pokedex_id
+            SELECT id, name, pokedex_id, image
             FROM pokemon
             WHERE pokedex_id = $1
         ),
 
-        -- naik ke atas cari base
         ancestors AS (
-            SELECT p.id, p.name, p.pokedex_id
+            SELECT p.id, p.name, p.pokedex_id, p.image
             FROM pokemon p
             JOIN start_pokemon sp ON p.id = sp.id
 
             UNION
 
-            SELECT p2.id, p2.name, p2.pokedex_id
+            SELECT p2.id, p2.name, p2.pokedex_id, p2.image
             FROM evolution e
             JOIN ancestors a ON e.post_stage = a.id
             JOIN pokemon p2 ON e.pre_stage = p2.id
         ),
 
-        -- base = yang PALING ATAS
         base AS (
             SELECT *
             FROM ancestors
@@ -164,7 +161,6 @@ const getEvolutionChain = async (pokedex_id) => {
             LIMIT 1
         ),
 
-        -- turun ke bawah ambil semua evolusi
         descendants AS (
             SELECT 
                 e.pre_stage,
@@ -187,14 +183,17 @@ const getEvolutionChain = async (pokedex_id) => {
             b.id AS base_id,
             b.name AS base_name,
             b.pokedex_id AS base_pokedex,
+            b.image AS base_image,
 
             p1.id AS pre_id,
             p1.name AS pre_name,
             p1.pokedex_id AS pre_pokedex,
+            p1.image AS pre_image,
 
             p2.id AS post_id,
             p2.name AS post_name,
             p2.pokedex_id AS post_pokedex,
+            p2.image AS post_image,
 
             d.method
         FROM base b
@@ -208,7 +207,8 @@ const getEvolutionChain = async (pokedex_id) => {
     const base = {
         id: result.rows[0].base_id,
         name: result.rows[0].base_name,
-        pokedex_id: result.rows[0].base_pokedex
+        pokedex_id: result.rows[0].base_pokedex,
+        image: result.rows[0].base_image
     }
 
     const edges = result.rows
@@ -218,6 +218,7 @@ const getEvolutionChain = async (pokedex_id) => {
             post_id: r.post_id,
             post_name: r.post_name,
             post_pokedex: r.post_pokedex,
+            post_image: r.post_image,
             method: r.method
         }))
 
@@ -228,6 +229,7 @@ const getEvolutionChain = async (pokedex_id) => {
                 id: e.post_id,
                 name: e.post_name,
                 pokedex_id: e.post_pokedex,
+                image: e.post_image,
                 method: e.method,
                 evolves_to: buildTree(e.post_id)
             }))
@@ -238,5 +240,6 @@ const getEvolutionChain = async (pokedex_id) => {
         chain: buildTree(base.id)
     }
 }
+
 
 module.exports = { getEvol, deleteEvol, updateEvol, getEvolById, createEvol, getEvolutionChain }

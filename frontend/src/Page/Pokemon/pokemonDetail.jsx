@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MoveRight, MoveDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PokemonStats } from "./PokemonStats";
+import { PokemonEvolution } from "./PokemonEvolution";
+
 
 export function PokemonDetail() {
     const API_URL = "http://localhost:3000"
@@ -13,6 +14,8 @@ export function PokemonDetail() {
     const [sebelum, setSebelum] = useState({})
     const [sesudah, setSesudah] = useState({})
     const navigate = useNavigate()
+    const [evol, setEvol] = useState({})
+
 
     const typeColor = (typeName = "") => {
         const t = typeName.toLowerCase()
@@ -123,6 +126,22 @@ export function PokemonDetail() {
         navigate(`/pokemon/${pokedex_id}`)
     }
 
+    useEffect(() => {
+        const evolution = async () => {
+            try {
+                const res = await fetch(`${API_URL}/evolution/pokemon/${id}`)
+                const json = await res.json()
+
+                setEvol(json.data)
+            }
+            catch (err) {
+                console.log(err.message)
+            }
+        }
+
+        evolution()
+    }, [id])
+
     return (
         <div className="bg-white rounded-md pl-5 pt-5 pr-5 pb-5 flex flex-col gap-5">
 
@@ -193,9 +212,31 @@ export function PokemonDetail() {
                 <div className="flex flex-col gap-10">
                     <span className="text-4xl font-bold">Evolution Line</span>
 
-                    <div className="flex justify-center gap-5 flex-col md:flex-row items-center">
-
+                    <div className="flex justify-center">
+                        {evol?.base && (
+                            <PokemonEvolution
+                                pokemon={evol.base}
+                                evolvesTo={evol.chain}
+                                onPokemonClick={HandleNavigate} />
+                        )}
                     </div>
+
+
+                    <div className="flex justify-between items-center border-b border-gray-300 pb-2">
+                <button onClick={() => HandleNavigate(sebelum.pokedex_id)} className="flex gap-2">
+                    <div className="flex flex-col">
+                        <span className="font-semibold text-md">{sebelum ? sebelum.name : ""}</span>
+                        <span className="text-sm">{sebelum.pokedex_id && (formatPokedexId(sebelum.pokedex_id))}</span>
+                    </div>
+                </button>
+                <span className="font-bold text-2xl md:text-4xl">{pokemon.name}</span>
+                <button onClick={() => HandleNavigate(sesudah.pokedex_id)} className="flex gap-2">
+                    <div className="flex flex-col">
+                        <span className="font-semibold text-md">{sesudah.name}</span>
+                        <span className="text-sm">{sesudah?.pokedex_id ? formatPokedexId(sesudah.pokedex_id) : ""}</span>
+                    </div>
+                </button>
+            </div>
                 </div>
             </div>
         </div>
