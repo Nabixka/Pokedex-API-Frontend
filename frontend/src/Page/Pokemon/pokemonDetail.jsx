@@ -220,23 +220,6 @@ export function PokemonDetail() {
                                 onPokemonClick={HandleNavigate} />
                         )}
                     </div>
-
-
-                    <div className="flex justify-between items-center border-b border-gray-300 pb-2">
-                <button onClick={() => HandleNavigate(sebelum.pokedex_id)} className="flex gap-2">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-md">{sebelum ? sebelum.name : ""}</span>
-                        <span className="text-sm">{sebelum.pokedex_id && (formatPokedexId(sebelum.pokedex_id))}</span>
-                    </div>
-                </button>
-                <span className="font-bold text-2xl md:text-4xl">{pokemon.name}</span>
-                <button onClick={() => HandleNavigate(sesudah.pokedex_id)} className="flex gap-2">
-                    <div className="flex flex-col">
-                        <span className="font-semibold text-md">{sesudah.name}</span>
-                        <span className="text-sm">{sesudah?.pokedex_id ? formatPokedexId(sesudah.pokedex_id) : ""}</span>
-                    </div>
-                </button>
-            </div>
                 </div>
             </div>
         </div>

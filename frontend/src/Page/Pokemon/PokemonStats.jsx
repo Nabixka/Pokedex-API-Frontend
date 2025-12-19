@@ -6,7 +6,7 @@ export function PokemonStats({label, value}) {
 
     const color =
         value < 50 ? "bg-orange-800" :
-            value < 90 ? "bg-yellow-400" :
+        value < 90 ? "bg-yellow-400" :
                 "bg-green-300"
 
     return (

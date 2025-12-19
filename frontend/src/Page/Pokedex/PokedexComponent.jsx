@@ -96,6 +96,7 @@ export function Component() {
         if(page === 3) return ex.generation.no === 3
         if(page === 4) return ex.generation.no === 4 
         if(page === 5) return ex.generation.no === 5 
+        if(page === 6) return ex.generation.no === 6
     })
 
     const formatPokedexId = (id) => "#" + id.toString().padStart(4, "0")
@@ -119,6 +120,7 @@ export function Component() {
                     <button onClick={() => setPage(3)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">3</button>
                     <button onClick={() => setPage(4)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">4</button>
                     <button onClick={() => setPage(5)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">5</button>
+                    <button onClick={() => setPage(6)} className="w-full bg-gray-200 border-r border-gray-400 text-gray-700 text-lg">6</button>
                 </div>
             </div>
 

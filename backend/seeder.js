@@ -14,6 +14,7 @@ const statsGen3Seeder = require("./seeder/stats/statsGen3Seeder")
 const statsGen4Seeder = require("./seeder/stats/statsGen4Seeder")
 const statsGen5Seeder = require("./seeder/stats/statsGen5Seeder")
 const evolutionGen1Seeder = require("./seeder/evolution/evolutionGen1Seeder")
+const pokemonGen6Seeder = require("./seeder/pokemon/pokemonGen6Seeder")
 
 
 async function seeder(){
@@ -28,6 +29,7 @@ async function seeder(){
         await pokemonGen3Seeder()
         await pokemonGen4Seeder()
         await pokemonGen5Seeder()
+        await pokemonGen6Seeder()
         await gameSeeder()
         await statsGen1Seeder()
         await statsGen2Seeder()

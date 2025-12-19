@@ -1,6 +1,7 @@
 import React from "react";
 import { Navbar } from "../Navbar/Navbar";
 import { PokemonDetail } from "./pokemonDetail";
+import { Footer } from "../Navbar/Footer";
 
 export default function Pokemon() {
     return (
@@ -10,6 +11,9 @@ export default function Pokemon() {
             </div>
             <div className="pt-20 pl-5 pr-5 pb-20">
                 <PokemonDetail />
+            </div>
+            <div className="">
+                <Footer />
             </div>
         </div>
     )
